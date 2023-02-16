@@ -4,6 +4,7 @@ import { CardNumberInput } from './components/CardNumberInput';
 import CVCInput from './components/CVCInput/CVCInput';
 import { ExpiredInput } from './components/ExpiredInput';
 import { OwnerInput } from './components/OwnerInput';
+import { PasswordInput } from './components/PasswordInput';
 
 function App() {
   const [cardNumbers, setCardNumbers] = useState<string[]>([]);
@@ -38,6 +39,7 @@ function App() {
       <ExpiredInput onExpiredChange={handleExpiredChange} />
       <OwnerInput onOwnerChanged={handleOwnerChange} />
       <CVCInput onCvcChange={handleCvcChange} />
+      <PasswordInput />
     </div>
   );
 }
