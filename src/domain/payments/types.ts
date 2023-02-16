@@ -6,7 +6,7 @@ export type TCVC = `${TCardSingleNumber}${TCardSingleNumber}${TCardSingleNumber}
 
 export interface ICard {
   // 카드 식별을 위한  정보
-  cardName: string;
+  cardName?: string;
   owner?: string;
   alias?: string;
   numbers: TCardNumbers | string[];
@@ -14,5 +14,5 @@ export interface ICard {
   expiredMonth: number;
   expiredYear: number;
   password?: TCardNumber;
-  cvc?: TCVC;
+  cvc?: TCVC | string;
 }

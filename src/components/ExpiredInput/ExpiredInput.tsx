@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { onNumericKeyDownOnly } from '../../domain/payments/listeners';
 import { isAllowedNumberKeys } from '../../util/inputKey';
 import { replaceNumberOnly } from '../../util/number';
 
@@ -20,11 +21,6 @@ function ExpiredInput({ onExpiredChange }: TExpiredInputChange) {
     {
       placeholder: 'MM',
       maxLength: MAX_LENGTH,
-      onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (!isAllowedNumberKeys(event.key)) {
-          event.preventDefault();
-        }
-      },
       onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = Number(event.target.value);
         if (value < 1) {
@@ -38,9 +34,6 @@ function ExpiredInput({ onExpiredChange }: TExpiredInputChange) {
     {
       placeholder: 'YY',
       maxLength: MAX_LENGTH,
-      onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (!isAllowedNumberKeys(event.key)) event.preventDefault();
-      },
       onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
         setExpiredYear(Number(event.target.value));
       },
@@ -58,6 +51,7 @@ function ExpiredInput({ onExpiredChange }: TExpiredInputChange) {
             type="text"
             ref={(el) => (inputRefs.current[idx] = el)}
             {...property}
+            onKeyDown={onNumericKeyDownOnly}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               event.target.value = replaceNumberOnly(event.target.value);
               property.onChange(event);

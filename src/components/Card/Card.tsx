@@ -17,7 +17,7 @@ const getViewCardNumbers = (cardNumbers: string[]) => {
     .join('-');
 };
 
-function Card({ cardName, owner = '', expiredMonth, expiredYear, numbers }: ICard) {
+function Card({ cardName, owner, expiredMonth, expiredYear, numbers }: ICard) {
   const cardNumber = getViewCardNumbers(numbers);
 
   return (
@@ -34,7 +34,7 @@ function Card({ cardName, owner = '', expiredMonth, expiredYear, numbers }: ICar
         </div>
         <div className="card-bottom">
           <div className="card-bottom__info">
-            <span className="card-text">{getShorteningString(owner, 5)}</span>
+            <span className="card-text">{owner && getShorteningString(owner, 5)}</span>
             <span className="card-text">
               {generatePad(expiredMonth, 2)} / {generatePad(expiredYear, 2)}
             </span>

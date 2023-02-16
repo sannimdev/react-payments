@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { onNumericKeyDownOnly } from '../../domain/payments/listeners';
 import { isAllowedNumberKeys } from '../../util/inputKey';
 import { replaceNumberOnly } from '../../util/number';
 
@@ -17,10 +18,6 @@ function CardNumberInput({ onCardNumberChange }: TCardNumberInputProps) {
     if (onCardNumberChange) onCardNumberChange(cardNumbers);
   }, [cardNumbers]);
 
-  const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (!isAllowedNumberKeys(event.key)) event.preventDefault();
-  };
-
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.target.value = replaceNumberOnly(event.target.value);
     const cardNumbers = cardNumberInputRefs.current?.map((input) => input?.value || '');
@@ -36,7 +33,7 @@ function CardNumberInput({ onCardNumberChange }: TCardNumberInputProps) {
             key={idx}
             type={type}
             className="input-basic"
-            onKeyDown={onKeyDown}
+            onKeyDown={onNumericKeyDownOnly}
             onChange={onChange}
             ref={(el) => (cardNumberInputRefs.current[idx] = el)}
             maxLength={CARD_NUMBER_MAX_LENGTH}
