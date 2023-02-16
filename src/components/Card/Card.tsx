@@ -2,10 +2,21 @@ import React from 'react';
 import { ICard } from '../../domain/payments/types';
 import '../../styles/card.css';
 
-const CARD_DELIMITER = ' - ';
+const getEncryptedChars = (s = '') => Array.from({ length: s.length }, () => '•').join('');
+const getViewCardNumbers = (cardNumbers: string[]) => {
+  const result: string[] = [];
+  return cardNumbers
+    .reduce((accumulated, current, idx) => {
+      if ([0, 1].includes(idx)) {
+        return [...accumulated, current || ''];
+      }
+      return [...accumulated, getEncryptedChars(current)];
+    }, result)
+    .join('-');
+};
 
 function Card({ cardName, owner, expiredMonth, expiredYear, numbers }: ICard) {
-  const cardNumber = numbers?.join(CARD_DELIMITER);
+  const cardNumber = getViewCardNumbers(numbers);
 
   return (
     <div className="card-box">

@@ -9,7 +9,7 @@ export interface ICard {
   cardName: string;
   owner?: string;
   alias?: string;
-  numbers: TCardNumbers;
+  numbers: TCardNumbers | string[];
   // 카드 유효성 판별을 위한 정보
   expiredMonth: number;
   expiredYear: number;
