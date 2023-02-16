@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-// import { TCardNumber, TCardNumbers } from '../../domain/payments/types';
+import { isAllowedNumberKeys } from '../../util/inputKey';
+import { replaceNumberOnly } from '../../util/number';
 
 type TCardNumberInputProps = {
   onCardNumberChange?: (cardNumbers: string[]) => void;
@@ -7,9 +8,6 @@ type TCardNumberInputProps = {
 
 const CARD_NUMBER_INPUT_TYPES = ['text', 'text', 'password', 'password'];
 const CARD_NUMBER_MAX_LENGTH = 4;
-const NUMBER_KEYS = Array.from({ length: 10 }, (_, idx) => String(idx));
-const ALLOWED_SPECIAL_KEYS = ['Tab', 'Backspace', 'Delete'];
-const ALLOWED_KEYS = [...NUMBER_KEYS, ...ALLOWED_SPECIAL_KEYS];
 
 function CardNumberInput({ onCardNumberChange }: TCardNumberInputProps) {
   const [cardNumbers, setCardNumbers] = useState<string[]>([]);
@@ -19,28 +17,32 @@ function CardNumberInput({ onCardNumberChange }: TCardNumberInputProps) {
     if (onCardNumberChange) onCardNumberChange(cardNumbers);
   }, [cardNumbers]);
 
-  const onKeyDown = (event: React.KeyboardEvent) => {
-    if (!ALLOWED_KEYS.includes(event.key)) event.preventDefault();
+  const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!isAllowedNumberKeys(event.key)) event.preventDefault();
   };
 
-  const onChange = () => {
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.target.value = replaceNumberOnly(event.target.value);
     const cardNumbers = cardNumberInputRefs.current?.map((input) => input?.value || '');
     setCardNumbers(cardNumbers);
   };
 
   return (
-    <div className="input-box">
-      {CARD_NUMBER_INPUT_TYPES.map((type, idx) => (
-        <input
-          key={idx}
-          type={type}
-          className="input-basic"
-          onKeyDown={onKeyDown}
-          onChange={onChange}
-          ref={(el) => (cardNumberInputRefs.current[idx] = el)}
-          maxLength={CARD_NUMBER_MAX_LENGTH}
-        />
-      ))}
+    <div className="input-container">
+      <span className="input-title">카드 번호</span>
+      <div className="input-box">
+        {CARD_NUMBER_INPUT_TYPES.map((type, idx) => (
+          <input
+            key={idx}
+            type={type}
+            className="input-basic"
+            onKeyDown={onKeyDown}
+            onChange={onChange}
+            ref={(el) => (cardNumberInputRefs.current[idx] = el)}
+            maxLength={CARD_NUMBER_MAX_LENGTH}
+          />
+        ))}
+      </div>
     </div>
   );
 }

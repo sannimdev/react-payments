@@ -1,6 +1,8 @@
 import React from 'react';
 import { ICard } from '../../domain/payments/types';
 import '../../styles/card.css';
+import { generatePad } from '../../util/number';
+import { getShorteningString } from '../../util/string';
 
 const getEncryptedChars = (s = '') => Array.from({ length: s.length }, () => '•').join('');
 const getViewCardNumbers = (cardNumbers: string[]) => {
@@ -15,7 +17,7 @@ const getViewCardNumbers = (cardNumbers: string[]) => {
     .join('-');
 };
 
-function Card({ cardName, owner, expiredMonth, expiredYear, numbers }: ICard) {
+function Card({ cardName, owner = '', expiredMonth, expiredYear, numbers }: ICard) {
   const cardNumber = getViewCardNumbers(numbers);
 
   return (
@@ -32,9 +34,9 @@ function Card({ cardName, owner, expiredMonth, expiredYear, numbers }: ICard) {
         </div>
         <div className="card-bottom">
           <div className="card-bottom__info">
-            <span className="card-text">{owner}</span>
+            <span className="card-text">{getShorteningString(owner, 5)}</span>
             <span className="card-text">
-              {expiredMonth} / {expiredYear}
+              {generatePad(expiredMonth, 2)} / {generatePad(expiredYear, 2)}
             </span>
           </div>
         </div>
