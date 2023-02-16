@@ -3,6 +3,7 @@ import { Card } from './components/Card';
 import { CardNumberInput } from './components/CardNumberInput';
 import CVCInput from './components/CVCInput/CVCInput';
 import { ExpiredInput } from './components/ExpiredInput';
+import { Frame } from './components/Frame';
 import { OwnerInput } from './components/OwnerInput';
 import { PasswordInput } from './components/PasswordInput';
 
@@ -33,14 +34,14 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <Frame>
       <Card owner={owner} expiredMonth={expiredMonth} expiredYear={expiredYear} numbers={cardNumbers} cvc={cvc} />
       <CardNumberInput onCardNumberChange={handleCardNumberChange} />
       <ExpiredInput onExpiredChange={handleExpiredChange} />
       <OwnerInput onOwnerChanged={handleOwnerChange} />
       <CVCInput onCvcChange={handleCvcChange} />
       <PasswordInput />
-    </div>
+    </Frame>
   );
 }
 

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { onNumericKeyDownOnly } from '../../domain/payments/listeners';
-import { isAllowedNumberKeys } from '../../util/inputKey';
 import { replaceNumberOnly } from '../../util/number';
 
 type TCardNumberInputProps = {
