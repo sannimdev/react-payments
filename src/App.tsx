@@ -1,24 +1,13 @@
-import React from 'react';
-import { CardDetail } from './pages/card-detail';
-import { CardEdit } from './pages/card-edit';
-import { CardList } from './pages/card-list';
-interface IRoutes {
-  [key: string]: JSX.Element;
-}
-
-const routes: IRoutes = {
-  '/card-detail': <CardDetail />,
-  '/card-edit': <CardEdit />,
-  '/card-add': <CardEdit />,
-  '/': <CardList />,
-};
+import React, { useContext, useEffect } from 'react';
+import { Router } from './components/Router';
+import { Routes } from './components/Routes/Routes';
 
 function App() {
-  const { pathname } = window.location || '';
-
-  const path = '/' + pathname.substring(1).split('/')[0];
-
-  return routes[path] ? routes[path] : <CardList />;
+  return (
+    <Router>
+      <Routes />
+    </Router>
+  );
 }
 
 export default App;
