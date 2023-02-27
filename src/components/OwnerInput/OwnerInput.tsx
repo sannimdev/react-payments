@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { TCardComponentProps } from '../../domain/payments/types';
 
-type TOwnerInputProps = {
-  onOwnerChanged?: (owner: string) => void;
-};
-
-function OwnerInput({ onOwnerChanged }: TOwnerInputProps) {
+function OwnerInput({ onChange }: TCardComponentProps<string>) {
   const [owner, setOwner] = useState('');
 
   useEffect(() => {
-    if (onOwnerChanged) onOwnerChanged(owner);
+    if (onChange) onChange(owner);
   }, [owner]);
 
   return (

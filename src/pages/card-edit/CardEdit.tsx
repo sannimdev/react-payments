@@ -29,9 +29,9 @@ function CardList() {
   return (
     <Frame title="카드 추가" backLink={'/'}>
       <Card owner={owner} expiredMonth={expiredMonth} expiredYear={expiredYear} numbers={cardNumbers} cvc={cvc} />
-      <CardNumberInput onCardNumberChange={handleCardNumberChange} />
-      <ExpiredInput onExpiredChange={handleExpiredChange} />
-      <OwnerInput onOwnerChanged={handleOwnerChange} />
+      <CardNumberInput onChange={handleCardNumberChange} />
+      <ExpiredInput onChange={handleExpiredChange} />
+      <OwnerInput onChange={handleOwnerChange} />
       <CvcInput onChange={handleCvcChange} />
       <PinInput />
       <div className="button-box">

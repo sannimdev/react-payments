@@ -1,31 +1,34 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { onNumericKeyDownOnly } from '../../domain/payments/listeners';
 import { replaceNumberOnly } from '../../util/number';
+import { TCardComponentProps } from '../../domain/payments/types';
 import '../../styles/input.css';
-
-type TCardNumberInputProps = {
-  onCardNumberChange?: (cardNumbers: string[]) => void;
-};
 
 const CARD_NUMBER_INPUT_TYPES = ['text', 'text', 'password', 'password'];
 const CARD_NUMBER_MAX_LENGTH = 4;
 
-function CardNumberInput({ onCardNumberChange }: TCardNumberInputProps) {
+function CardNumberInput({ onChange }: TCardComponentProps<string[]>) {
   const [cardNumbers, setCardNumbers] = useState<string[]>([]);
-  const cardNumberInputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const [lastFocusIndex, setLastFocusIndex] = useState(0);
+  const refs = useRef<(HTMLInputElement | null)[]>([]);
 
   useEffect(() => {
-    onCardNumberChange?.(cardNumbers);
+    const lengths = cardNumbers.map((numbers) => numbers.length);
+    const lastIndexOfMaxLength = lengths.lastIndexOf(CARD_NUMBER_MAX_LENGTH);
+    if (lastFocusIndex === lastIndexOfMaxLength) focusNext(lastFocusIndex);
+
+    onChange?.(cardNumbers);
   }, [cardNumbers]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>, currentIndex: number) => {
     const changedValue = replaceNumberOnly(event.target.value);
-    event.target.value = changedValue;
-    const cardNumbers = cardNumberInputRefs.current?.map((input) => input?.value || '');
-    setCardNumbers(cardNumbers);
+    console.log(replaceNumberOnly);
 
-    const nextInput = cardNumberInputRefs.current[currentIndex + 1];
-    if (changedValue.length === CARD_NUMBER_MAX_LENGTH && nextInput) nextInput.focus();
+    setLastFocusIndex(currentIndex);
+    setCardNumbers([...cardNumbers.slice(0, currentIndex), changedValue, ...cardNumbers.slice(currentIndex + 1)]);
+  };
+
+  const focusNext = (index: number) => {
+    refs.current[index + 1]?.focus();
   };
 
   return (
@@ -35,12 +38,12 @@ function CardNumberInput({ onCardNumberChange }: TCardNumberInputProps) {
         {CARD_NUMBER_INPUT_TYPES.map((type, idx) => (
           <input
             key={idx}
-            type={type}
             className="input-basic"
-            onKeyDown={onNumericKeyDownOnly}
-            onChange={(event) => handleChange(event, idx)}
-            ref={(el) => (cardNumberInputRefs.current[idx] = el)}
+            type={type}
             maxLength={CARD_NUMBER_MAX_LENGTH}
+            ref={(el) => (refs.current[idx] = el)}
+            onChange={(event) => handleChange(event, idx)}
+            value={cardNumbers[idx]}
           />
         ))}
       </div>

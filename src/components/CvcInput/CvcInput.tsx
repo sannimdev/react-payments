@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { onNumericKeyDownOnly } from '../../domain/payments/listeners';
+import { TCardComponentProps } from '../../domain/payments/types';
 
-type TCVCInputProps = {
-  onChange?: (cvc: string) => void;
-};
-
-function CvcInput({ onChange }: TCVCInputProps) {
+function CvcInput({ onChange }: TCardComponentProps<string>) {
   const [cvc, setCvc] = useState('');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

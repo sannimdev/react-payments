@@ -4,16 +4,16 @@ import { replaceNumberOnly } from '../../util/number';
 
 const MAX_LENGTH = 2;
 type TExpiredInputChange = {
-  onExpiredChange?: (expiredMonth: number, expiredYear: number) => void;
+  onChange?: (expiredMonth: number, expiredYear: number) => void;
 };
 
-function ExpiredInput({ onExpiredChange }: TExpiredInputChange) {
+function ExpiredInput({ onChange }: TExpiredInputChange) {
   const [expiredMonth, setExpiredMonth] = useState(1);
   const [expiredYear, setExpiredYear] = useState(0);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   useEffect(() => {
-    if (onExpiredChange) onExpiredChange(expiredMonth, expiredYear);
+    if (onChange) onChange(expiredMonth, expiredYear);
   }, [expiredMonth, expiredYear]);
 
   const expiredInputProperties = [
