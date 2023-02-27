@@ -1,16 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { onNumericKeyDownOnly } from '../../domain/payments/listeners';
 import { replaceNumberOnly } from '../../util/number';
 
 const MAX_LENGTH = 2;
 type TExpiredInputChange = {
-  onChange?: (expiredMonth: number, expiredYear: number) => void;
+  onChange?: (expiredMonth: string, expiredYear: string) => void;
+};
+
+const setFocus = (element: HTMLInputElement) => {
+  element.focus();
+  element.setSelectionRange(element.value.length, element.value.length);
 };
 
 function ExpiredInput({ onChange }: TExpiredInputChange) {
-  const [expiredMonth, setExpiredMonth] = useState(1);
-  const [expiredYear, setExpiredYear] = useState(0);
+  const [expiredMonth, setExpiredMonth] = useState('');
+  const [expiredYear, setExpiredYear] = useState('');
+
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const [monthRefs, yearRefs] = [inputRefs.current[0], inputRefs.current[1]];
 
   useEffect(() => {
     if (onChange) onChange(expiredMonth, expiredYear);
@@ -22,26 +28,36 @@ function ExpiredInput({ onChange }: TExpiredInputChange) {
       maxLength: MAX_LENGTH,
       onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
+        const parsedValue = parseInt(replaceNumberOnly(value), 10);
         if (value === '') {
+          setExpiredMonth(value);
           return;
-        }
-
-        const parsedValue = parseInt(value);
-        if (parsedValue < 1) {
-          event.target.value = '1';
+        } else if (isNaN(parsedValue)) {
+          return;
         } else if (parsedValue > 12) {
-          event.target.value = '12';
+          setExpiredMonth('12');
+        } else {
+          setExpiredMonth(value);
         }
 
-        setExpiredMonth(Number(event.target.value));
+        if (value.length === MAX_LENGTH && yearRefs) {
+          setFocus(yearRefs);
+        }
       },
+      value: expiredMonth,
     },
     {
       placeholder: 'YY',
       maxLength: MAX_LENGTH,
       onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
-        setExpiredYear(Number(event.target.value));
+        const value = event.target.value;
+        setExpiredYear(value);
+
+        if (value.length === 0 && monthRefs) {
+          setFocus(monthRefs);
+        }
       },
+      value: expiredYear,
     },
   ];
 
@@ -49,18 +65,17 @@ function ExpiredInput({ onChange }: TExpiredInputChange) {
     <div className="input-container">
       <span className="input-title">만료일</span>
       <div className="input-box w-50">
-        {expiredInputProperties.map((property, idx) => (
+        {expiredInputProperties.map((expiredInput, idx) => (
           <input
-            key={property.placeholder}
+            key={expiredInput.placeholder}
             className="input-basic"
             type="text"
             ref={(el) => (inputRefs.current[idx] = el)}
-            {...property}
-            onKeyDown={onNumericKeyDownOnly}
+            {...expiredInput}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              event.target.value = replaceNumberOnly(event.target.value);
-              property.onChange(event);
+              expiredInput.onChange(event);
             }}
+            value={expiredInput.value}
           />
         ))}
       </div>

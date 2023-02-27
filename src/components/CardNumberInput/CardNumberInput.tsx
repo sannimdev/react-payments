@@ -7,7 +7,7 @@ const CARD_NUMBER_INPUT_TYPES = ['text', 'text', 'password', 'password'];
 const CARD_NUMBER_MAX_LENGTH = 4;
 
 function CardNumberInput({ onChange }: TCardComponentProps<string[]>) {
-  const [cardNumbers, setCardNumbers] = useState<string[]>([]);
+  const [cardNumbers, setCardNumbers] = useState(['', '', '', '']);
   const [lastFocusIndex, setLastFocusIndex] = useState(0);
   const refs = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -20,11 +20,10 @@ function CardNumberInput({ onChange }: TCardComponentProps<string[]>) {
   }, [cardNumbers]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>, currentIndex: number) => {
-    const changedValue = replaceNumberOnly(event.target.value);
-    console.log(replaceNumberOnly);
+    const value = replaceNumberOnly(event.target.value);
 
     setLastFocusIndex(currentIndex);
-    setCardNumbers([...cardNumbers.slice(0, currentIndex), changedValue, ...cardNumbers.slice(currentIndex + 1)]);
+    setCardNumbers([...cardNumbers.slice(0, currentIndex), value, ...cardNumbers.slice(currentIndex + 1)]);
   };
 
   const focusNext = (index: number) => {
