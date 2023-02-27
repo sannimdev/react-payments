@@ -2,32 +2,29 @@ import React, { useEffect, useRef, useState } from 'react';
 import { replaceNumberOnly } from '../../util/number';
 import { TCardComponentProps } from '../../domain/payments/types';
 import '../../styles/input.css';
+import { setFocus } from '../../util/input';
 
 const CARD_NUMBER_INPUT_TYPES = ['text', 'text', 'password', 'password'];
 const CARD_NUMBER_MAX_LENGTH = 4;
 
 function CardNumberInput({ onChange }: TCardComponentProps<string[]>) {
   const [cardNumbers, setCardNumbers] = useState(['', '', '', '']);
-  const [lastFocusIndex, setLastFocusIndex] = useState(0);
   const refs = useRef<(HTMLInputElement | null)[]>([]);
 
   useEffect(() => {
-    const lengths = cardNumbers.map((numbers) => numbers.length);
-    const lastIndexOfMaxLength = lengths.lastIndexOf(CARD_NUMBER_MAX_LENGTH);
-    if (lastFocusIndex === lastIndexOfMaxLength) focusNext(lastFocusIndex);
-
     onChange?.(cardNumbers);
   }, [cardNumbers]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>, currentIndex: number) => {
     const value = replaceNumberOnly(event.target.value);
-
-    setLastFocusIndex(currentIndex);
     setCardNumbers([...cardNumbers.slice(0, currentIndex), value, ...cardNumbers.slice(currentIndex + 1)]);
-  };
 
-  const focusNext = (index: number) => {
-    refs.current[index + 1]?.focus();
+    const [prevRef, nextRef] = [refs.current[currentIndex - 1], refs.current[currentIndex + 1]];
+    if (value === '' && prevRef) {
+      setFocus(prevRef);
+    } else if (value.length === CARD_NUMBER_MAX_LENGTH && nextRef) {
+      setFocus(nextRef);
+    }
   };
 
   return (

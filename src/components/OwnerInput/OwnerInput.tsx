@@ -17,6 +17,7 @@ function OwnerInput({ onChange }: TCardComponentProps<string>) {
         placeholder="카드에 표시된 이름과 동일하게 입력하세요."
         maxLength={30}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => setOwner(event.target.value)}
+        value={owner}
       />
     </div>
   );

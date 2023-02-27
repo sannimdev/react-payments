@@ -1,14 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { setFocus } from '../../util/input';
 import { replaceNumberOnly } from '../../util/number';
 
 const MAX_LENGTH = 2;
 type TExpiredInputChange = {
   onChange?: (expiredMonth: string, expiredYear: string) => void;
-};
-
-const setFocus = (element: HTMLInputElement) => {
-  element.focus();
-  element.setSelectionRange(element.value.length, element.value.length);
 };
 
 function ExpiredInput({ onChange }: TExpiredInputChange) {
