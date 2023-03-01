@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { TCardComponentProps } from '../../domain/payments/types';
 import '../../styles/input.css';
 import useNumberInput from '../../hooks/useNumberInput';
@@ -6,12 +6,12 @@ import useNumberInput from '../../hooks/useNumberInput';
 const CARD_NUMBER_INPUT_TYPES = ['text', 'text', 'password', 'password'];
 const CARD_NUMBER_MAX_LENGTH = 4;
 
-function CardNumberInput({ onChange }: TCardComponentProps<string[]>) {
+function CardNumberInput({ onChange, onFulfill }: TCardComponentProps<string[]>) {
   const {
     numbers: cardNumbers,
     refs,
     handleChange,
-  } = useNumberInput({ initValues: ['', '', '', ''], maxLength: 4, onChange });
+  } = useNumberInput({ initValues: ['', '', '', ''], maxLength: 4, onChange, onFulfill });
 
   return (
     <div className="input-container">

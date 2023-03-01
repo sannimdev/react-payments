@@ -6,6 +6,7 @@ export type TCVC = `${TCardSingleNumber}${TCardSingleNumber}${TCardSingleNumber}
 
 export type TCardComponentProps<T> = {
   onChange?: (argument: T) => void;
+  onFulfill?: (argument: T) => void;
 };
 
 export interface ICard {

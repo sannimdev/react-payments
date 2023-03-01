@@ -6,6 +6,7 @@ type THookNumerInputProps = {
   initValues: string[];
   maxLength: number;
   onChange?: (numbers: string[]) => void;
+  onFulfill?: (numbers: string[]) => void;
 };
 
 type THookNumberInputs = {
@@ -15,7 +16,7 @@ type THookNumberInputs = {
   handleChange: (event: React.ChangeEvent<HTMLInputElement>, currentIndex: number) => void;
 };
 
-export default ({ initValues, maxLength, onChange }: THookNumerInputProps): THookNumberInputs => {
+export default ({ initValues, maxLength, onChange, onFulfill }: THookNumerInputProps): THookNumberInputs => {
   const [numbers, setNumbers] = useState(initValues);
   const refs = useRef<HTMLInputElement[]>(Array.from({ length: initValues.length }));
 
@@ -35,6 +36,11 @@ export default ({ initValues, maxLength, onChange }: THookNumerInputProps): THoo
     },
     [numbers, setNumbers, refs]
   );
+
+  const isFulfilled = numbers.length === numbers.filter((s) => s !== '' && s.length === maxLength).length;
+  if (isFulfilled) {
+    onFulfill?.(numbers);
+  }
 
   return { numbers, setNumbers, refs, handleChange };
 };

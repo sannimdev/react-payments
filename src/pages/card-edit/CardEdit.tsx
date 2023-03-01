@@ -27,7 +27,7 @@ function CardEdit() {
   return (
     <Frame title="카드 추가" backLink={'/'}>
       <Card owner={owner} expiredMonth={expiredMonth} expiredYear={expiredYear} numbers={cardNumbers} cvc={cvc[0]} />
-      <CardNumberInput onChange={setCardNumbers} />
+      <CardNumberInput onChange={setCardNumbers} onFulfill={(dataTest) => console.log(dataTest)} />
       <ExpiredInput onChange={handleExpiredChange} />
       <OwnerInput onChange={setOwner} />
       <CvcInput onChange={handleCvcChange} />
