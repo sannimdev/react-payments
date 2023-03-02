@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { TCardComponentProps } from '../../domain/payments/types';
 import '../../styles/input.css';
 import useNumberInput from '../../hooks/useNumberInput';

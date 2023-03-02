@@ -5,14 +5,21 @@ import { replaceNumberOnly } from '../../util/number';
 const MAX_LENGTH = 2;
 type TExpiredInputChange = {
   onChange?: (expiredMonth: string, expiredYear: string) => void;
+  onFulfill?: (expiredMonth: string, expiredYear: string) => void;
 };
 
-function ExpiredInput({ onChange }: TExpiredInputChange) {
+function ExpiredInput({ onChange, onFulfill }: TExpiredInputChange) {
   const [expiredMonth, setExpiredMonth] = useState('');
   const [expiredYear, setExpiredYear] = useState('');
 
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [monthRefs, yearRefs] = inputRefs.current;
+
+  const checkFulfilled = useCallback(() => {
+    if ([expiredMonth, expiredYear].every((s) => s?.length === MAX_LENGTH)) {
+      onFulfill?.(expiredMonth, expiredYear);
+    }
+  }, [expiredMonth, expiredYear]);
 
   const expiredInputProperties = [
     {
@@ -38,6 +45,7 @@ function ExpiredInput({ onChange }: TExpiredInputChange) {
           }
 
           onChange?.(value, expiredYear);
+          checkFulfilled();
         },
         [monthRefs, expiredMonth]
       ),
@@ -76,6 +84,7 @@ function ExpiredInput({ onChange }: TExpiredInputChange) {
             {...expiredInput}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               expiredInput.onChange(event);
+              checkFulfilled();
             }}
             value={expiredInput.value}
           />

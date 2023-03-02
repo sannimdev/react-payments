@@ -1,7 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import { TCardComponentProps } from '../../domain/payments/types';
 
-function OwnerInput({ onChange }: TCardComponentProps<string>) {
+const MAX_LENGTH = 30;
+function OwnerInput({ onChange, onFulfill }: TCardComponentProps<string>) {
   const [owner, setOwner] = useState('');
 
   const handleChange = useCallback(
@@ -10,6 +11,10 @@ function OwnerInput({ onChange }: TCardComponentProps<string>) {
 
       setOwner(value);
       onChange?.(value);
+
+      if (value?.length === MAX_LENGTH) {
+        onFulfill?.(value);
+      }
     },
     [owner]
   );
@@ -21,7 +26,7 @@ function OwnerInput({ onChange }: TCardComponentProps<string>) {
         type="text"
         className="input-basic"
         placeholder="카드에 표시된 이름과 동일하게 입력하세요."
-        maxLength={30}
+        maxLength={MAX_LENGTH}
         onChange={handleChange}
         value={owner}
       />

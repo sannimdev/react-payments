@@ -1,6 +1,7 @@
 import React from 'react';
 import '../../styles/input.css';
 import useNumberInput from '../../hooks/useNumberInput';
+import { TCardComponentProps } from '../../domain/payments/types';
 
 const EACH_PASSWORD_LENGTH = 1;
 const PASSWORD_LENGTH = 4;
@@ -8,12 +9,12 @@ const INPUTABLE_PASSWORD_LENGTH = 2;
 const isEditable = (idx: number) => idx < INPUTABLE_PASSWORD_LENGTH;
 
 // TODO: 네이밍 PIN으로 수정하기
-function PinInput() {
+function PinInput({ onFulfill }: TCardComponentProps<string[]>) {
   const {
     numbers: pins,
     refs,
     handleChange,
-  } = useNumberInput({ initValues: ['', ''], maxLength: EACH_PASSWORD_LENGTH });
+  } = useNumberInput({ initValues: ['', ''], maxLength: EACH_PASSWORD_LENGTH, onFulfill });
 
   return (
     <div className="input-container">
