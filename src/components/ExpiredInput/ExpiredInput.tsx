@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useRef, useState } from 'react';
 import { TCardComponentEventHandlers } from '../../domain/payments/types';
 import { setFocus } from '../../util/input';
 import { leaveOnlyNumbers } from '../../util/number';
@@ -91,4 +91,7 @@ function ExpiredInput({ onChange, onFulfill }: TCardComponentEventHandlers) {
   );
 }
 
-export default ExpiredInput;
+const ForwardedExpiredInput = forwardRef(ExpiredInput);
+ForwardedExpiredInput.displayName = 'ExpiredInput';
+
+export default ForwardedExpiredInput;

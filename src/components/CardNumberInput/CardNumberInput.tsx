@@ -6,12 +6,12 @@ import useNumberInput from '../../hooks/useNumberInput';
 const CARD_NUMBER_INPUT_TYPES = ['text', 'text', 'password', 'password'];
 const CARD_NUMBER_MAX_LENGTH = 4;
 
-function CardNumberInput({ onChange, onFulfill }: TCardComponentEventHandlers) {
+function CardNumberInput({ onChange, onFulfill, nextRef }: TCardComponentEventHandlers) {
   const {
     numbers: cardNumbers,
     refs,
     handleChange,
-  } = useNumberInput({ initValues: ['', '', '', ''], maxLength: 4, onChange, onFulfill });
+  } = useNumberInput({ initValues: ['', '', '', ''], maxLength: 4, onChange, onFulfill, nextRef });
 
   return (
     <div className="input-container">

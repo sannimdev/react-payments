@@ -15,7 +15,7 @@ type THookNumberInputs = {
   handleChange: (event: React.ChangeEvent<HTMLInputElement>, currentIndex: number) => void;
 };
 
-export default ({ initValues, maxLength, onChange, onFulfill }: THookNumerInputProps): THookNumberInputs => {
+export default ({ initValues, maxLength, onChange, onFulfill, nextRef }: THookNumerInputProps): THookNumberInputs => {
   const [numbers, setNumbers] = useState(initValues);
   const refs = useRef<HTMLInputElement[]>(Array.from({ length: initValues.length }));
 
@@ -25,11 +25,11 @@ export default ({ initValues, maxLength, onChange, onFulfill }: THookNumerInputP
       const newNumbers = [...numbers.slice(0, currentIndex), value, ...numbers.slice(currentIndex + 1)];
       setNumbers(newNumbers);
 
-      const [prevRef, nextRef] = [refs.current[currentIndex - 1], refs.current[currentIndex + 1]];
+      const [prevRef, nextFocusedRef] = [refs.current[currentIndex - 1], refs.current[currentIndex + 1]];
       if (value === '' && prevRef) {
         setFocus(prevRef);
-      } else if (value.length === maxLength && nextRef) {
-        setFocus(nextRef);
+      } else if (value.length === maxLength && nextFocusedRef) {
+        setFocus(nextFocusedRef);
       }
       onChange?.(newNumbers);
     },
@@ -38,7 +38,10 @@ export default ({ initValues, maxLength, onChange, onFulfill }: THookNumerInputP
 
   const filledInputs = numbers.filter((s) => s !== '' && s.length === maxLength);
   const isFulfilled = numbers.length === filledInputs.length;
-  isFulfilled && onFulfill?.(numbers);
+  if (isFulfilled) {
+    onFulfill?.(numbers);
+    nextRef?.current?.focus();
+  }
 
   return { numbers, setNumbers, refs, handleChange };
 };
