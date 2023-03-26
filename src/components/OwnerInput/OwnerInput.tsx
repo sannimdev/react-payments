@@ -1,19 +1,34 @@
-import React, { forwardRef, useCallback, useState } from 'react';
-import { TCardComponentEventHandlers } from '../../domain/payments/types';
+import React, { ForwardedRef, forwardRef, useCallback, useState } from 'react';
+import { TCardComponentProps } from '../../domain/payments/types';
 
 const MAX_LENGTH = 30;
-function OwnerInput({ onChange, onFulfill }: TCardComponentEventHandlers<string>, ref: any) {
+function OwnerInput(
+  { onChange, onFulfill, prevRef, nextRef }: TCardComponentProps<string>,
+  ref: ForwardedRef<HTMLInputElement>
+) {
   const [owner, setOwner] = useState('');
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const value = event.target.value;
 
+      if (value?.length === 0) {
+        setOwner(value);
+        prevRef?.current?.focus();
+        return;
+      }
+
       setOwner(value);
       onChange?.(value);
+      onFulfill?.(value);
+    },
+    [owner]
+  );
 
-      if (value?.length) {
-        onFulfill?.(value);
+  const handleEnter = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === 'Enter') {
+        nextRef?.current?.focus();
       }
     },
     [owner]
@@ -29,6 +44,7 @@ function OwnerInput({ onChange, onFulfill }: TCardComponentEventHandlers<string>
         placeholder="카드에 표시된 이름과 동일하게 입력하세요."
         maxLength={MAX_LENGTH}
         onChange={handleChange}
+        onKeyDown={handleEnter}
         value={owner}
       />
     </div>

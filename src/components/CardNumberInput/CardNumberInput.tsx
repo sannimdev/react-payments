@@ -1,17 +1,20 @@
-import React from 'react';
-import { TCardComponentEventHandlers } from '../../domain/payments/types';
+import React, { ForwardedRef, forwardRef } from 'react';
+import { TCardComponentProps } from '../../domain/payments/types';
 import '../../styles/input.css';
 import useNumberInput from '../../hooks/useNumberInput';
 
 const CARD_NUMBER_INPUT_TYPES = ['text', 'text', 'password', 'password'];
 const CARD_NUMBER_MAX_LENGTH = 4;
 
-function CardNumberInput({ onChange, onFulfill, nextRef }: TCardComponentEventHandlers) {
+function CardNumberInput(
+  { onChange, onFulfill, nextRef }: TCardComponentProps,
+  forwardedRef: ForwardedRef<HTMLInputElement>
+) {
   const {
     numbers: cardNumbers,
     refs,
     handleChange,
-  } = useNumberInput({ initValues: ['', '', '', ''], maxLength: 4, onChange, onFulfill, nextRef });
+  } = useNumberInput({ initValues: ['', '', '', ''], maxLength: 4, onChange, onFulfill, nextRef, forwardedRef });
 
   return (
     <div className="input-container">
@@ -19,11 +22,11 @@ function CardNumberInput({ onChange, onFulfill, nextRef }: TCardComponentEventHa
       <div className="input-box">
         {CARD_NUMBER_INPUT_TYPES.map((type, idx) => (
           <input
+            ref={(el: HTMLInputElement) => (refs.current[idx] = el)}
             key={idx}
             className="input-basic"
             type={type}
             maxLength={CARD_NUMBER_MAX_LENGTH}
-            ref={(el) => (refs.current[idx] = el as HTMLInputElement)}
             onChange={(event) => handleChange(event, idx)}
             value={cardNumbers[idx]}
           />
@@ -33,4 +36,6 @@ function CardNumberInput({ onChange, onFulfill, nextRef }: TCardComponentEventHa
   );
 }
 
-export default React.memo(CardNumberInput);
+const ForwardedCardNumberInput = forwardRef(CardNumberInput);
+ForwardedCardNumberInput.displayName = 'CardNumberInput';
+export default React.memo(ForwardedCardNumberInput);

@@ -10,8 +10,13 @@ function CardEdit() {
   const [owner, setOwner] = useState('');
   const [cvc, setCvc] = useState('');
 
-  const testRef = useRef<HTMLInputElement>(null);
-  const expiredRef = useRef<HTMLInputElement>(null);
+  const refs = {
+    cardNumber: useRef<HTMLInputElement>(null),
+    expired: useRef<HTMLInputElement>(null),
+    owner: useRef<HTMLInputElement>(null),
+    cvc: useRef<HTMLInputElement>(null),
+    pin: useRef<HTMLInputElement>(null),
+  };
 
   const handleExpiredChange = useCallback(
     ([expiredMonth, expiredYear]: string[]) => {
@@ -32,11 +37,31 @@ function CardEdit() {
   return (
     <Frame title="카드 추가" backLink={'/'}>
       <Card owner={owner} expiredMonth={expiredMonth} expiredYear={expiredYear} numbers={cardNumbers} cvc={cvc} />
-      <CardNumberInput onChange={setCardNumbers} nextRef={testRef} />
-      <ExpiredInput ref={expiredRef} onChange={handleExpiredChange} onFulfill={handleOnFulfill} />
-      <OwnerInput ref={testRef} onChange={setOwner} onFulfill={handleOnFulfill} />
-      <CvcInput onChange={handleCvcChange} onFulfill={handleOnFulfill} />
-      <PinInput onFulfill={handleOnFulfill} />
+
+      <CardNumberInput ref={refs.cardNumber} nextRef={refs.expired} onChange={setCardNumbers} />
+      <ExpiredInput
+        ref={refs.expired}
+        prevRef={refs.cardNumber}
+        nextRef={refs.owner}
+        onChange={handleExpiredChange}
+        onFulfill={handleOnFulfill}
+      />
+      <OwnerInput
+        ref={refs.owner}
+        prevRef={refs.expired}
+        nextRef={refs.cvc}
+        onChange={setOwner}
+        onFulfill={handleOnFulfill}
+      />
+      <CvcInput
+        ref={refs.cvc}
+        prevRef={refs.owner}
+        nextRef={refs.pin}
+        onChange={handleCvcChange}
+        onFulfill={handleOnFulfill}
+      />
+      <PinInput ref={refs.pin} prevRef={refs.cvc} onFulfill={handleOnFulfill} />
+
       <div className="button-box">
         <div className="button-text">
           <Link to="/card-detail">다음</Link>
