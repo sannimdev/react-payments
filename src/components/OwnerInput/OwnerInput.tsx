@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react';
-import { TCardComponentProps } from '../../domain/payments/types';
+import { TCardComponentEventHandlers } from '../../domain/payments/types';
 
 const MAX_LENGTH = 30;
-function OwnerInput({ onChange, onFulfill }: TCardComponentProps<string>) {
+function OwnerInput({ onChange, onFulfill }: TCardComponentEventHandlers<string>) {
   const [owner, setOwner] = useState('');
 
   const handleChange = useCallback(
@@ -12,7 +12,7 @@ function OwnerInput({ onChange, onFulfill }: TCardComponentProps<string>) {
       setOwner(value);
       onChange?.(value);
 
-      if (value?.length === MAX_LENGTH) {
+      if (value?.length) {
         onFulfill?.(value);
       }
     },

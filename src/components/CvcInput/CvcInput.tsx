@@ -1,9 +1,9 @@
 import React from 'react';
 import useNumberInput from '../../hooks/useNumberInput';
-import { TCardComponentProps } from '../../domain/payments/types';
+import { TCardComponentEventHandlers } from '../../domain/payments/types';
 
 const CVC_MAX_LENGTH = 3;
-function CvcInput({ onChange, onFulfill }: TCardComponentProps<string[]>) {
+function CvcInput({ onChange, onFulfill }: TCardComponentEventHandlers<string[]>) {
   const { numbers: cvc, handleChange } = useNumberInput({
     initValues: [''],
     maxLength: CVC_MAX_LENGTH,

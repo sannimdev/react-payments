@@ -1,13 +1,12 @@
 import React, { Dispatch, MutableRefObject, SetStateAction, useCallback, useRef, useState } from 'react';
+import { TCardComponentEventHandlers } from '../domain/payments/types';
 import { setFocus } from '../util/input';
-import { replaceNumberOnly } from '../util/number';
+import { leaveOnlyNumbers } from '../util/number';
 
 type THookNumerInputProps = {
   initValues: string[];
   maxLength: number;
-  onChange?: (numbers: string[]) => void;
-  onFulfill?: (numbers: string[]) => void;
-};
+} & TCardComponentEventHandlers;
 
 type THookNumberInputs = {
   numbers: string[];
@@ -22,7 +21,7 @@ export default ({ initValues, maxLength, onChange, onFulfill }: THookNumerInputP
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>, currentIndex: number) => {
-      const value = replaceNumberOnly(event.target.value);
+      const value = leaveOnlyNumbers(event.target.value);
       const newNumbers = [...numbers.slice(0, currentIndex), value, ...numbers.slice(currentIndex + 1)];
       setNumbers(newNumbers);
 
@@ -37,10 +36,9 @@ export default ({ initValues, maxLength, onChange, onFulfill }: THookNumerInputP
     [numbers, setNumbers, refs]
   );
 
-  const isFulfilled = numbers.length === numbers.filter((s) => s !== '' && s.length === maxLength).length;
-  if (isFulfilled) {
-    onFulfill?.(numbers);
-  }
+  const filledInputs = numbers.filter((s) => s !== '' && s.length === maxLength);
+  const isFulfilled = numbers.length === filledInputs.length;
+  isFulfilled && onFulfill?.(numbers);
 
   return { numbers, setNumbers, refs, handleChange };
 };

@@ -1,25 +1,19 @@
 import React, { useCallback, useRef, useState } from 'react';
+import { TCardComponentEventHandlers } from '../../domain/payments/types';
 import { setFocus } from '../../util/input';
-import { replaceNumberOnly } from '../../util/number';
+import { leaveOnlyNumbers } from '../../util/number';
 
 const MAX_LENGTH = 2;
-type TExpiredInputChange = {
-  onChange?: (expiredMonth: string, expiredYear: string) => void;
-  onFulfill?: (expiredMonth: string, expiredYear: string) => void;
+const checkFulfilled = (month: string, year: string) => {
+  return [month, year].every((s) => s?.length === MAX_LENGTH);
 };
 
-function ExpiredInput({ onChange, onFulfill }: TExpiredInputChange) {
+function ExpiredInput({ onChange, onFulfill }: TCardComponentEventHandlers) {
   const [expiredMonth, setExpiredMonth] = useState('');
   const [expiredYear, setExpiredYear] = useState('');
 
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [monthRefs, yearRefs] = inputRefs.current;
-
-  const checkFulfilled = useCallback(() => {
-    if ([expiredMonth, expiredYear].every((s) => s?.length === MAX_LENGTH)) {
-      onFulfill?.(expiredMonth, expiredYear);
-    }
-  }, [expiredMonth, expiredYear]);
 
   const expiredInputProperties = [
     {
@@ -28,12 +22,14 @@ function ExpiredInput({ onChange, onFulfill }: TExpiredInputChange) {
       onChange: useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
           const value = event.target.value;
-          const parsedValue = parseInt(replaceNumberOnly(value), 10);
+          const parsedValue = parseInt(leaveOnlyNumbers(value), 10);
           if (value === '') {
             setExpiredMonth(value);
             return;
           } else if (isNaN(parsedValue)) {
             return;
+          } else if (value === '00') {
+            setExpiredMonth('01');
           } else if (parsedValue > 12) {
             setExpiredMonth('12');
           } else {
@@ -44,8 +40,8 @@ function ExpiredInput({ onChange, onFulfill }: TExpiredInputChange) {
             setFocus(yearRefs);
           }
 
-          onChange?.(value, expiredYear);
-          checkFulfilled();
+          onChange?.([value, expiredYear]);
+          checkFulfilled(value, expiredYear) && onFulfill?.([value, expiredYear]);
         },
         [monthRefs, expiredMonth]
       ),
@@ -63,7 +59,8 @@ function ExpiredInput({ onChange, onFulfill }: TExpiredInputChange) {
             setFocus(monthRefs);
           }
 
-          onChange?.(expiredMonth, value);
+          onChange?.([expiredMonth, value]);
+          checkFulfilled(expiredMonth, value) && onFulfill?.([expiredMonth, value]);
         },
         [yearRefs, expiredYear]
       ),
@@ -83,8 +80,8 @@ function ExpiredInput({ onChange, onFulfill }: TExpiredInputChange) {
             ref={(el) => (inputRefs.current[idx] = el)}
             {...expiredInput}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              event.target.value = leaveOnlyNumbers(event.target.value);
               expiredInput.onChange(event);
-              checkFulfilled();
             }}
             value={expiredInput.value}
           />

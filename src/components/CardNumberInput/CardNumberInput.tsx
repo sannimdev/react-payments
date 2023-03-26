@@ -1,12 +1,12 @@
 import React from 'react';
-import { TCardComponentProps } from '../../domain/payments/types';
+import { TCardComponentEventHandlers } from '../../domain/payments/types';
 import '../../styles/input.css';
 import useNumberInput from '../../hooks/useNumberInput';
 
 const CARD_NUMBER_INPUT_TYPES = ['text', 'text', 'password', 'password'];
 const CARD_NUMBER_MAX_LENGTH = 4;
 
-function CardNumberInput({ onChange, onFulfill }: TCardComponentProps<string[]>) {
+function CardNumberInput({ onChange, onFulfill }: TCardComponentEventHandlers) {
   const {
     numbers: cardNumbers,
     refs,

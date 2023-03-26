@@ -4,7 +4,7 @@ export type TCardNumbers = TCardNumber[];
 
 export type TCVC = `${TCardSingleNumber}${TCardSingleNumber}${TCardSingleNumber}`;
 
-export type TCardComponentProps<T> = {
+export type TCardComponentEventHandlers<T = string[]> = {
   onChange?: (argument: T) => void;
   onFulfill?: (argument: T) => void;
 };
