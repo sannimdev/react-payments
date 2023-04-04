@@ -1,26 +1,20 @@
-import React, { useContext } from 'react';
-import { StepContext, StepContextProvider } from './context/StepContext';
+import React from 'react';
+import { PAYMENTS_STEP, useStepContext } from './context/StepContext';
 import { CardDetail, CardEdit, CardList } from './pages';
 
 function App() {
-  const stepContext = useContext(StepContext);
+  const { step } = useStepContext();
 
-  const { step } = stepContext;
-
-  if (step === 0) {
-    return (
-      <StepContextProvider>
-        <CardList />
-      </StepContextProvider>
-    );
-  } else if (step === 1 || step === 2) {
-    return (
-      <StepContextProvider>
-        <CardEdit />
-      </StepContextProvider>
-    );
+  switch (step) {
+    case PAYMENTS_STEP.ADD:
+    case PAYMENTS_STEP.EDIT:
+      return <CardEdit />;
+    case PAYMENTS_STEP.DONE:
+      return <CardDetail />;
+    case PAYMENTS_STEP.LIST:
+    default:
+      return <CardList />;
   }
-  return <CardDetail />;
 }
 
 export default App;
