@@ -1,5 +1,4 @@
-import React, { useCallback, useContext } from 'react';
-import routerContext from '../../context/routerContext';
+import React, { useCallback } from 'react';
 
 type TLinkProps = {
   to: string;
@@ -7,12 +6,10 @@ type TLinkProps = {
 };
 
 function Link({ to, children }: TLinkProps) {
-  const { changePath } = useContext(routerContext);
-
   const handleClick = useCallback(
     (event: React.MouseEvent) => {
       event.preventDefault();
-      changePath(to);
+      //TODO:
     },
     [to]
   );

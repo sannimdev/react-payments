@@ -1,18 +1,24 @@
-import React from 'react';
-import { Route, Router, Routes } from './components';
+import React, { useContext } from 'react';
+import StepContext, { STEP_INITIAL_DATA } from './context/StepContext';
 import { CardDetail, CardEdit, CardList } from './pages';
 
 function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/card-detail" element={<CardDetail />} />
-        <Route path="/card-edit" element={<CardEdit />} />
-        <Route path="/card-add" element={<CardEdit />} />
-        <Route path="/" element={<CardList />} />
-      </Routes>
-    </Router>
-  );
+  const { step } = useContext(StepContext);
+
+  if (step === 0) {
+    return (
+      <StepContext.Provider value={STEP_INITIAL_DATA}>
+        <CardList />
+      </StepContext.Provider>
+    );
+  } else if (step === 1 || step === 2) {
+    return (
+      <StepContext.Provider value={STEP_INITIAL_DATA}>
+        <CardEdit />
+      </StepContext.Provider>
+    );
+  }
+  return <CardDetail />;
 }
 
 export default App;
