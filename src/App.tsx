@@ -1,21 +1,23 @@
 import React, { useContext } from 'react';
-import StepContext, { STEP_INITIAL_DATA } from './context/StepContext';
+import { StepContext, StepContextProvider } from './context/StepContext';
 import { CardDetail, CardEdit, CardList } from './pages';
 
 function App() {
-  const { step } = useContext(StepContext);
+  const stepContext = useContext(StepContext);
+
+  const { step } = stepContext;
 
   if (step === 0) {
     return (
-      <StepContext.Provider value={STEP_INITIAL_DATA}>
+      <StepContextProvider>
         <CardList />
-      </StepContext.Provider>
+      </StepContextProvider>
     );
   } else if (step === 1 || step === 2) {
     return (
-      <StepContext.Provider value={STEP_INITIAL_DATA}>
+      <StepContextProvider>
         <CardEdit />
-      </StepContext.Provider>
+      </StepContextProvider>
     );
   }
   return <CardDetail />;
