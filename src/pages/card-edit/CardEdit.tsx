@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Card, CardNumberInput, CvcInput, ExpiredInput, Frame, OwnerInput, PinInput } from '../../components';
+import { useCardContext } from '../../context/CardContext';
 import { PAYMENTS_STEP, useStepContext } from '../../context/StepContext';
 import '../../styles/input.css';
 import '../../styles/utils.css';
@@ -16,6 +17,7 @@ function CardEdit() {
   const inputs = [cardNumbers, expiredMonth, expiredYear, owner, cvc, pin];
 
   const { setStep } = useStepContext();
+  const { setCard } = useCardContext();
 
   useEffect(() => {
     const others = inputs.slice(1);
@@ -64,7 +66,16 @@ function CardEdit() {
       return;
     }
 
-    // nextStep
+    setCard &&
+      setCard({
+        cardName: 'default카드',
+        owner,
+        numbers: cardNumbers,
+        expiredMonth,
+        expiredYear,
+        password: pin,
+        cvc,
+      });
     setStep && setStep(PAYMENTS_STEP.DONE);
   }, [setStep, ...inputs]);
 
