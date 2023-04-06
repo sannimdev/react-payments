@@ -5,6 +5,7 @@ import { leaveOnlyNumbers } from '../util/number';
 
 type THookNumerInputProps = {
   initValues: string[];
+  minLength?: number;
   maxLength: number;
 } & TCardComponentProps;
 
@@ -17,6 +18,7 @@ type THookNumberInputs = {
 
 export default ({
   initValues,
+  minLength = 0,
   maxLength,
   onChange,
   onFulfill,
@@ -58,11 +60,21 @@ export default ({
   );
 
   const filledInputs = numbers.filter((s) => s !== '' && s.length === maxLength);
-  const isFulfilled = numbers.length === filledInputs.length;
+  const isFulfilled =
+    numbers.length === filledInputs.length &&
+    filledInputs.every((input) => input.length >= minLength && input.length <= maxLength);
   if (isFulfilled) {
-    onFulfill?.(numbers);
+    setTimeout(() => onFulfill?.(numbers));
     nextRef?.current?.focus();
   }
 
   return { numbers, setNumbers, refs, handleChange };
 };
+
+/*
+setTimeout...
+  react_devtools_backend.js:2655 Warning:
+  Cannot update a component (`CardEdit`) while rendering a different component (`CardNumberInput`).
+  To locate the bad setState() call inside `CardNumberInput`,
+    follow the stack trace as described in https://reactjs.org/link/setstate-in-render
+*/
