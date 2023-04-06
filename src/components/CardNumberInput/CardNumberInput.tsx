@@ -15,6 +15,7 @@ function CardNumberInput(
     numbers: cardNumbers,
     refs,
     handleChange,
+    handleKeyDown,
   } = useNumberInput({
     initValues: ['', '', '', ''],
     maxLength: CARD_NUMBER_MAX_LENGTH,
@@ -35,6 +36,7 @@ function CardNumberInput(
           type={type}
           maxLength={CARD_NUMBER_MAX_LENGTH}
           onChange={(event) => handleChange(event, idx)}
+          onKeyDown={(event) => handleKeyDown(event, idx)}
           value={cardNumbers[idx]}
         />
       ))}
