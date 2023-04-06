@@ -1,4 +1,7 @@
 export const CARD_INPUT = {
+  CARD_NAME: {
+    MAX_LENGTH: 5,
+  },
   CARD_NUMBER: {
     EACH_LENGTH: 4,
   },
@@ -20,6 +23,7 @@ export const CARD_INPUT = {
     LENGTH: 3,
   },
   PIN: {
-    LENGTH: 2,
+    LENGTH: 4,
+    EDITABLE_LENGTH: 2,
   },
 };

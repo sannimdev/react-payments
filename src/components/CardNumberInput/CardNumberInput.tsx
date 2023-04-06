@@ -3,9 +3,10 @@ import { TCardComponentProps } from '../../domain/payments/types';
 import '../../styles/input.css';
 import useNumberInput from '../../hooks/useNumberInput';
 import { InputContainer } from '../InputContainer';
+import { CARD_INPUT } from '../../constants';
 
+const CARD_NUMBER_EACH_LENGTH = CARD_INPUT.CARD_NUMBER.EACH_LENGTH;
 const CARD_NUMBER_INPUT_TYPES = ['text', 'text', 'password', 'password'];
-const CARD_NUMBER_MAX_LENGTH = 4;
 
 function CardNumberInput(
   { onChange, onFulfill, nextRef }: TCardComponentProps,
@@ -18,7 +19,7 @@ function CardNumberInput(
     handleKeyDown,
   } = useNumberInput({
     initValues: ['', '', '', ''],
-    maxLength: CARD_NUMBER_MAX_LENGTH,
+    maxLength: CARD_NUMBER_EACH_LENGTH,
     onChange,
     onFulfill,
     nextRef,
@@ -34,7 +35,7 @@ function CardNumberInput(
           key={idx}
           className="input-basic"
           type={type}
-          maxLength={CARD_NUMBER_MAX_LENGTH}
+          maxLength={CARD_NUMBER_EACH_LENGTH}
           onChange={(event) => handleChange(event, idx)}
           onKeyDown={(event) => handleKeyDown(event, idx)}
           value={cardNumbers[idx]}

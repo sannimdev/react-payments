@@ -44,5 +44,5 @@ export const isValidCvc = (cvc: string) => {
 };
 
 export const isValidPin = (pin: string) => {
-  return !isNaN(parseInt(pin, 10)) && pin.length === PIN.LENGTH;
+  return !isNaN(parseInt(pin, 10)) && pin.length === PIN.EDITABLE_LENGTH;
 };
