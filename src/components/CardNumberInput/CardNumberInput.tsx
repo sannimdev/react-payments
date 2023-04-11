@@ -32,7 +32,7 @@ function CardNumberInput(
   });
 
   return (
-    <InputContainer caption="카드 번호">
+    <InputContainer title="카드 번호">
       {CARD_NUMBER_INPUT_TYPES.map((type, idx) => (
         <input
           required
