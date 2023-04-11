@@ -14,6 +14,7 @@ type THookNumberInputs = {
   numbers: string[];
   setNumbers: Dispatch<SetStateAction<string[]>>;
   refs: MutableRefObject<HTMLInputElement[]>;
+  handleFocus: (event: React.FocusEvent<HTMLInputElement>, currentIndex: number) => void;
   handleChange: (event: React.ChangeEvent<HTMLInputElement>, currentIndex: number) => void;
   handleKeyDown: (event: React.KeyboardEvent<HTMLInputElement>, currentIndex: number) => void;
 };
@@ -34,6 +35,7 @@ const isFulfilled = (inputs: string[], maxLength: number) => {
 export default ({
   initValues,
   maxLength,
+  onFocus,
   onChange,
   onFulfill,
   prevRef,
@@ -105,5 +107,14 @@ export default ({
     [refs, prevRef, nextRef, setFocus]
   );
 
-  return { numbers, setNumbers, refs, handleChange, handleKeyDown };
+  const handleFocus = useCallback((event: React.FocusEvent<HTMLInputElement>, currentIndex: number) => {
+    if (!forwardedRef) return;
+    if (typeof forwardedRef === 'function') {
+      forwardedRef(refs.current[0]);
+    } else {
+      forwardedRef.current = refs.current[currentIndex];
+    }
+    onFocus?.(event, currentIndex);
+  }, []);
+  return { numbers, setNumbers, refs, handleChange, handleKeyDown, handleFocus };
 };

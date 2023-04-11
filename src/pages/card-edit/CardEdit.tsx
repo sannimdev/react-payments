@@ -116,24 +116,18 @@ function CardEdit() {
     [setStep, ...inputs, refs]
   );
 
-  const handleVirtualNumPadClick = useCallback(
-    (key: string) => {
-      const currentNumbers = cardNumbers[2] + key;
-      console.log(currentNumbers);
-      switch (key) {
-        case '초기화':
-          setCardNumbers([...cardNumbers.slice(0, 2), '']);
-          return;
-        case '지움':
-          setCardNumbers([...cardNumbers.slice(0, 2), cardNumbers[2].substring(0, cardNumbers[2].length - 1)]);
-          return;
-        default:
-          setCardNumbers([...cardNumbers.slice(0, 2), currentNumbers]);
-          return;
-      }
-    },
-    [cardNumbers]
-  );
+  const handleVirtualNumPadClick = (key: string) => {
+    const value = refs.cardNumber.current?.value || '';
+    setCardNumbers([...cardNumbers.slice(0, 2), value + key, '']);
+  };
+
+  const [visibleTemporary, setVisibleTemporary] = useState(false);
+  const handleCardNumberFocus = (event: React.FocusEvent, index?: number) => {
+    console.log(event, index, refs.cardNumber.current);
+    if (index === 2) {
+      setVisibleTemporary(true);
+    }
+  };
 
   return (
     <Frame title="카드 추가" onBackClick={handleBackStep}>
@@ -144,7 +138,13 @@ function CardEdit() {
       </Card>
 
       <form onSubmit={handleEnrollStep}>
-        <CardNumberInput ref={refs.cardNumber} nextRef={refs.expired} onChange={setCardNumbers} values={cardNumbers} />
+        <CardNumberInput
+          ref={refs.cardNumber}
+          nextRef={refs.expired}
+          onChange={setCardNumbers}
+          values={cardNumbers}
+          onFocus={handleCardNumberFocus}
+        />
         <ExpiredInput ref={refs.expired} nextRef={refs.owner} onChange={handleExpired} />
         <OwnerInput ref={refs.owner} nextRef={refs.cvc} onChange={setOwner} />
         <CvcInput ref={refs.cvc} nextRef={refs.pin} onChange={handleCvc} />
@@ -158,7 +158,7 @@ function CardEdit() {
       </form>
       {!cardTypeSelected && <CardTypeModal onClick={handleSelectedCardType} />}
 
-      <VirtualNumPad onClick={handleVirtualNumPadClick} />
+      {visibleTemporary && <VirtualNumPad onClick={handleVirtualNumPadClick} />}
     </Frame>
   );
 }

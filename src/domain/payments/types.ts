@@ -8,6 +8,7 @@ export type TCVC = `${TDigit}${TDigit}${TDigit}`;
 
 export type TCardComponentProps<T = string[]> = {
   onChange?: (argument: T) => void;
+  onFocus?: (event: React.FocusEvent, index?: number) => void;
   onFulfill?: (argument: T) => void;
   prevRef?: React.RefObject<HTMLInputElement>;
   nextRef?: React.RefObject<HTMLInputElement>;

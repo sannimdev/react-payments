@@ -13,18 +13,20 @@ type TCardNumberInputProps = TCardComponentProps & {
 };
 
 function CardNumberInput(
-  { onChange, onFulfill, nextRef, values }: TCardNumberInputProps,
+  { onFocus, onChange, onFulfill, nextRef, values }: TCardNumberInputProps,
   forwardedRef: ForwardedRef<HTMLInputElement>
 ) {
   const {
     numbers: cardNumbers,
     refs,
+    handleFocus,
     handleChange,
     handleKeyDown,
   } = useNumberInput({
     initValues: ['', '', '', ''],
     maxLength: CARD_NUMBER_EACH_LENGTH,
     onChange,
+    onFocus,
     onFulfill,
     nextRef,
     forwardedRef,
@@ -40,7 +42,9 @@ function CardNumberInput(
           key={idx}
           className="input-basic input-dash"
           type={type}
+          minLength={CARD_NUMBER_EACH_LENGTH}
           maxLength={CARD_NUMBER_EACH_LENGTH}
+          onFocus={(event) => handleFocus(event, idx)}
           onChange={(event) => handleChange(event, idx)}
           onKeyDown={(event) => handleKeyDown(event, idx)}
           value={cardNumbers[idx] || ''}
