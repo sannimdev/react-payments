@@ -15,10 +15,10 @@ import '../../styles/utils.css';
 import { CardTypeModal } from '../../components/CardTypeModal';
 import { ICardType } from '../../domain/payments/types';
 import { PAYMENTS_STEP } from '../../constants';
-import { ToolTip } from '../../components/ToolTip';
+import { VirtualNumPad } from '../../components/VirtualNumPad';
 
 function CardEdit() {
-  const [cardNumbers, setCardNumbers] = useState<string[]>([]);
+  const [cardNumbers, setCardNumbers] = useState<string[]>(['', '', '', '']);
   const [expiredMonth, setExpiredMonth] = useState('');
   const [expiredYear, setExpiredYear] = useState('');
   const [owner, setOwner] = useState('');
@@ -116,6 +116,25 @@ function CardEdit() {
     [setStep, ...inputs, refs]
   );
 
+  const handleVirtualNumPadClick = useCallback(
+    (key: string) => {
+      const currentNumbers = cardNumbers[2] + key;
+      console.log(currentNumbers);
+      switch (key) {
+        case '초기화':
+          setCardNumbers([...cardNumbers.slice(0, 2), '']);
+          return;
+        case '지움':
+          setCardNumbers([...cardNumbers.slice(0, 2), cardNumbers[2].substring(0, cardNumbers[2].length - 1)]);
+          return;
+        default:
+          setCardNumbers([...cardNumbers.slice(0, 2), currentNumbers]);
+          return;
+      }
+    },
+    [cardNumbers]
+  );
+
   return (
     <Frame title="카드 추가" onBackClick={handleBackStep}>
       <Card card={{ owner, expiredMonth, expiredYear, numbers: cardNumbers, cvc }}>
@@ -138,6 +157,8 @@ function CardEdit() {
         </div>
       </form>
       {!cardTypeSelected && <CardTypeModal onClick={handleSelectedCardType} />}
+
+      <VirtualNumPad onClick={handleVirtualNumPadClick} />
     </Frame>
   );
 }
