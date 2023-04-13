@@ -3,6 +3,7 @@ import { TCardComponentProps } from '../../domain/payments/types';
 import { leaveOnlyNumbers } from '../../util/number';
 import { InputContainer } from '../InputContainer';
 import { CARD_INPUT } from '../../constants';
+import useForwardedRef from '../../hooks/useForwardedRef';
 
 const { MONTH, YEAR } = CARD_INPUT.EXPIRED;
 const MONTH_CHARACTERS = {
@@ -17,22 +18,14 @@ const isFulfilled = (month: string, year: string) => {
 
 function ExpiredInput(
   { onChange, onFulfill, prevRef, nextRef, caption }: TCardComponentProps,
-  forwardedRef: React.ForwardedRef<HTMLInputElement>
+  forwardedRef: React.ForwardedRef<HTMLInputElement | HTMLButtonElement>
 ) {
   const [expiredMonth, setExpiredMonth] = useState('');
   const [expiredYear, setExpiredYear] = useState('');
 
-  const monthRef = useRef<HTMLInputElement>(null);
-  const yearRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (!forwardedRef) return;
-    if (typeof forwardedRef === 'function') {
-      forwardedRef(monthRef.current);
-    } else {
-      forwardedRef.current = monthRef.current;
-    }
-  }, []);
+  const {
+    refs: [monthRef, yearRef],
+  } = useForwardedRef({ forwardedRef, length: [MONTH, YEAR].length });
 
   // TODO: 큰 거 나중에...😫
   const expiredInputProperties = [

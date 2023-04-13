@@ -2,6 +2,7 @@ import React, { forwardRef, useEffect, useRef } from 'react';
 import { InputContainer } from '../InputContainer';
 import { NumberInput } from '../NumberInput';
 import { CARD_INPUT } from '../../constants';
+import useForwardedRef from '../../hooks/useForwardedRef';
 
 export type TInputEventHandler = {
   onChange?: (values: string[]) => void;
@@ -18,18 +19,9 @@ const { CARD_NUMBER } = CARD_INPUT;
 
 function CardNumbersInput(
   { values, onChange, nextRef, caption }: TCardNumbersInput,
-  forwardedRef: React.ForwardedRef<HTMLInputElement>
+  forwardedRef: React.ForwardedRef<HTMLInputElement | HTMLButtonElement>
 ) {
-  const refs = Array.from({ length: values.length }, () => useRef() as React.RefObject<HTMLInputElement>);
-
-  useEffect(() => {
-    if (!forwardedRef) return;
-    if (typeof forwardedRef === 'function') {
-      forwardedRef(refs[0].current);
-    } else {
-      forwardedRef.current = refs[0].current;
-    }
-  }, []);
+  const { refs } = useForwardedRef({ forwardedRef, length: values.length });
 
   useEffect(() => {
     const lengths = values.map((value) => value.length);
