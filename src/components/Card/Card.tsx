@@ -36,7 +36,7 @@ function Card({ card, onClick, children }: TCardProps) {
       DEFAULT_CARD_TYPE
     );
   }, [numbers]);
-  const displayCardName = name || cardType.cardName;
+  const displayCardName = useMemo(() => name || cardType.cardName, [name, cardType]);
 
   const handleCardClick = useCallback(() => {
     onClick?.(card);
