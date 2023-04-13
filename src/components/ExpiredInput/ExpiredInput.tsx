@@ -42,8 +42,9 @@ function ExpiredInput(
       maxLength: MONTH.LENGTH,
       onChange: useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
-          const value = event.target.value;
-          const parsedValue = parseInt(leaveOnlyNumbers(value), 10);
+          const value = leaveOnlyNumbers(event.target.value);
+          event.target.value = value;
+          const parsedValue = parseInt(value, 10);
           if (value === '') {
             setExpiredMonth(value);
             prevRef?.current?.focus();
@@ -79,7 +80,8 @@ function ExpiredInput(
       maxLength: YEAR.LENGTH,
       onChange: useCallback(
         (event: React.ChangeEvent<HTMLInputElement>) => {
-          const value = event.target.value;
+          const value = leaveOnlyNumbers(event.target.value);
+          event.target.value = value;
           setExpiredYear(value);
           onChange?.([expiredMonth, value]);
 
@@ -113,7 +115,6 @@ function ExpiredInput(
           type="text"
           ref={expiredInput.ref}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            event.target.value = leaveOnlyNumbers(event.target.value);
             expiredInput.onChange(event);
           }}
           maxLength={expiredInput.maxLength}
