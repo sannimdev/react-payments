@@ -34,6 +34,7 @@ function ExpiredInput(
     }
   }, []);
 
+  // TODO: 큰 거 나중에...😫
   const expiredInputProperties = [
     {
       ref: monthRef,

@@ -2,10 +2,12 @@ import { useEffect, useRef } from 'react';
 
 type THookForwardedRef = {
   forwardedRef: React.ForwardedRef<HTMLInputElement | HTMLButtonElement>;
+  length?: number; //ref 개수
 };
 
-export default ({ forwardedRef }: THookForwardedRef) => {
-  const ref = useRef<HTMLInputElement>() as React.RefObject<HTMLInputElement>;
+export default ({ forwardedRef, length = 1 }: THookForwardedRef) => {
+  const refs = Array.from({ length }, () => useRef<HTMLInputElement>() as React.RefObject<HTMLInputElement>);
+  const ref = refs[0];
 
   useEffect(() => {
     if (!forwardedRef) return;
@@ -16,5 +18,5 @@ export default ({ forwardedRef }: THookForwardedRef) => {
     }
   }, []);
 
-  return { ref };
+  return { ref, refs };
 };
