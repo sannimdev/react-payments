@@ -17,7 +17,7 @@ type THookNumberInputs = {
   handleKeyDown: (event: React.KeyboardEvent<HTMLInputElement>, currentIndex: number) => void;
 };
 
-export default ({
+const useNumberInput = ({
   initValues,
   minLength = 0,
   maxLength,
@@ -87,3 +87,5 @@ export default ({
 
   return { numbers, setNumbers, refs, handleChange, handleKeyDown };
 };
+
+export default useNumberInput;

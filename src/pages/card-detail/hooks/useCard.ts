@@ -3,7 +3,7 @@ import { useCardContext } from '../../../context/CardContext';
 import { saveCard } from '../../../domain/payments/cardStorage';
 import { THookCard } from '../types';
 
-export default ({ setAlias, aliasRef }: THookCard) => {
+const useCard = ({ setAlias, aliasRef }: THookCard) => {
   const { card } = useCardContext();
 
   useEffect(() => {
@@ -20,3 +20,5 @@ export default ({ setAlias, aliasRef }: THookCard) => {
 
   return { card };
 };
+
+export default useCard;

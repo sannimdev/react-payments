@@ -13,7 +13,7 @@ export type THookHandler = TCardEditProperties &
     isValid: boolean;
   };
 
-export default ({
+const useHandlers = ({
   cardNumbers,
   setCardNumbers,
   expiredYear,
@@ -92,3 +92,5 @@ export default ({
 
   return { handleExpired, handleBackStep, handleSelectedCardType, handleEnrollStep, handleCardNumbers };
 };
+
+export default useHandlers;

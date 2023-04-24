@@ -1,3 +1,5 @@
-export default () => {
+const useHandler = () => {
   return {};
 };
+
+export default useHandler;

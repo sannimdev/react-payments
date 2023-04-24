@@ -11,7 +11,7 @@ import { TCardEditProperties, TCardEditRefs } from '../types';
 
 type THookValidator = TCardEditProperties & TCardEditRefs;
 
-export default ({ cardNumbers, expiredMonth, expiredYear, owner, cvc, pin, refs }: THookValidator) => {
+const useValidators = ({ cardNumbers, expiredMonth, expiredYear, owner, cvc, pin, refs }: THookValidator) => {
   const inputs = [cardNumbers, expiredMonth, expiredYear, owner, cvc, pin];
 
   const validations: { [key: string]: [boolean, React.RefObject<HTMLInputElement | HTMLButtonElement>, string] } =
@@ -49,3 +49,5 @@ export default ({ cardNumbers, expiredMonth, expiredYear, owner, cvc, pin, refs 
 
   return { validations, isValid, getValidationCaption };
 };
+
+export default useValidators;

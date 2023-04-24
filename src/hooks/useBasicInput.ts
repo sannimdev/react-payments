@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
 
-export default () => {
+const useBasicInput = () => {
   const [text, setText] = useState('');
   const textRef = useRef<HTMLInputElement>(null);
 
@@ -13,3 +13,5 @@ export default () => {
 
   return { text, setText, handleChange, textRef };
 };
+
+export default useBasicInput;

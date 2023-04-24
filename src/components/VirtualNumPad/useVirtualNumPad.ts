@@ -9,7 +9,7 @@ type THookVirtualNumPad = {
   keys: TVirtualNumberPad;
 } & TVirtualNumPad;
 
-export default ({ onClick, keys }: THookVirtualNumPad) => {
+const useVirtualNumPad = ({ onClick, keys }: THookVirtualNumPad) => {
   const [buffer, setBuffer] = useState('');
 
   const handleClick = useCallback(
@@ -41,3 +41,5 @@ export default ({ onClick, keys }: THookVirtualNumPad) => {
 
   return { handleClick };
 };
+
+export default useVirtualNumPad;
