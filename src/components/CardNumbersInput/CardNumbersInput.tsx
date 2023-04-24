@@ -3,7 +3,7 @@ import { InputContainer } from '../InputContainer';
 import { NumberInput } from '../NumberInput';
 import { CARD_INPUT } from '../../constants';
 import useForwardedRef from '../../hooks/useForwardedRef';
-import useHandler from './hooks/useHandler';
+import useCardNumbersHandler from './hooks/useCardNumbersHandler';
 
 export type TInputEventHandler = {
   onChange?: (values: string[]) => void;
@@ -25,7 +25,7 @@ function CardNumbersInput(
   const { values, onChange, nextRef, caption } = props;
   const { refs } = useForwardedRef({ forwardedRef, length: values.length });
 
-  const { handleChange, handleKeyDown } = useHandler({
+  const { handleChange, handleKeyDown } = useCardNumbersHandler({
     cardNumbers: values,
     onChange,
     nextRef,

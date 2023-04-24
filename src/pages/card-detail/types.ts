@@ -1,3 +1,5 @@
+import { ICard } from '../../domain/payments/types';
+
 export type TCardAlias = {
   alias: string;
   setAlias: React.Dispatch<React.SetStateAction<string>>;
@@ -6,3 +8,7 @@ export type TCardAlias = {
 };
 
 export type THookCard = TCardAlias;
+
+export type THookCardDetailHandlers = {
+  card: ICard;
+};

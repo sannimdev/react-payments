@@ -3,8 +3,8 @@ import { Card, CardNumbersInput, CvcInput, ExpiredInput, Frame, OwnerInput, PinI
 import '../../styles/input.css';
 import '../../styles/utils.css';
 import { CardTypeModal } from '../../components/CardTypeModal';
-import useValidators from './hooks/useValidators';
-import useHandlers from './hooks/useHandlers';
+import useCardEditValidators from './hooks/useCardEditValidators';
+import useCardEditHandlers from './hooks/useCardEditHandlers';
 import { TCardEditProperties, TCardEditRefs, TCardEditSetters } from './types';
 
 function CardEdit() {
@@ -42,12 +42,13 @@ function CardEdit() {
   } as TCardEditProperties & TCardEditSetters & TCardEditRefs; // 명시
 
   // hooks
-  const { isValid, getValidationCaption } = useValidators(CardEditStates);
-  const { handleExpired, handleBackStep, handleSelectedCardType, handleEnrollStep, handleCardNumbers } = useHandlers({
-    ...CardEditStates,
-    isValid,
-    setCardTypeSelected,
-  });
+  const { isValid, getValidationCaption } = useCardEditValidators(CardEditStates);
+  const { handleExpired, handleBackStep, handleSelectedCardType, handleEnrollStep, handleCardNumbers } =
+    useCardEditHandlers({
+      ...CardEditStates,
+      isValid,
+      setCardTypeSelected,
+    });
 
   return (
     <Frame title="카드 추가" onBackClick={handleBackStep}>
