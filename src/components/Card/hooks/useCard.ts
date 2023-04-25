@@ -11,11 +11,10 @@ const useCard = ({ cardNumbers, cardName }: THookCard) => {
   const cardType = useMemo(() => {
     const [vendor, type] = cardNumbers.slice(0, 2);
     return (
-      CARD_TYPES.find(({ cardNumberPrefix }) => cardNumberPrefix[0] === vendor && cardNumberPrefix[1] === type) ||
-      DEFAULT_CARD_TYPE
+      CARD_TYPES.find(({ numberPrefix }) => numberPrefix[0] === vendor && numberPrefix[1] === type) || DEFAULT_CARD_TYPE
     );
   }, [cardNumbers]);
-  const displayCardName = useMemo(() => cardName || cardType.cardName, [cardName, cardType]);
+  const displayCardName = useMemo(() => cardName || cardType.name, [cardName, cardType]);
 
   return { cardNumber, cardType, displayCardName };
 };

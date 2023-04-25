@@ -49,9 +49,9 @@ const useCardEditHandlers = ({
         return;
       }
 
-      const { cardName, cardNumberPrefix } = cardType;
+      const { name, numberPrefix } = cardType;
       setCard?.({
-        name: cardName,
+        name,
         owner,
         numbers: cardNumbers,
         expiredMonth,
@@ -60,7 +60,7 @@ const useCardEditHandlers = ({
         cvc,
       });
 
-      setCardNumbers((cardNumbers: string[]) => [...cardNumberPrefix, ...cardNumbers.slice(2)]);
+      setCardNumbers((cardNumbers: string[]) => [...numberPrefix, ...cardNumbers.slice(2)]);
     },
     [...inputs]
   );

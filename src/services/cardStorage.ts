@@ -16,11 +16,9 @@ export const getSavedCards = () => {
   throw new Error('Invalid types');
 };
 
-//TODO: saveCard, removeCard 리팱퉈륑
-
 export const saveCard = (card: ICard) => {
-  const createdAt = { createdAt: new Date().getTime() };
-  const updatedAt = { updatedAt: new Date().getTime() };
+  const createdAt = { createdAt: Date.now() };
+  const updatedAt = { updatedAt: Date.now() };
 
   const cards = getSavedCards();
   const others = cards.filter((c) => !compareCards(c, card)); //
@@ -39,7 +37,7 @@ export const saveCard = (card: ICard) => {
   localStorage.setItem(CARD_STORAGE_KEY, JSON.stringify(newCardsList)); //
 };
 
-export const removeCard = (card: ICard) => {
+export const deleteCard = (card: ICard) => {
   const cards = getSavedCards();
   const savedCard = getCard(card, cards);
   if (!savedCard) {

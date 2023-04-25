@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { Card } from '../../components';
 import { Frame } from '../../components/Frame';
 import { useStepContext } from '../../context/StepContext';
-import { getSavedCards, removeCard } from '../../services/cardStorage';
+import { getSavedCards, deleteCard } from '../../services/cardStorage';
 import { ICard } from '../../domain/payments/types';
 import './CardList.css';
 import { useCardContext } from '../../context/CardContext';
@@ -27,7 +27,7 @@ function CardList() {
   );
 
   const handleDeletingCard = useCallback((card: ICard) => {
-    removeCard(card);
+    deleteCard(card);
     setCards(getSavedCards());
   }, []);
 

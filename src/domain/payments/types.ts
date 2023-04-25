@@ -35,9 +35,9 @@ export interface ICard {
 
 export interface ICardType {
   id: number;
-  cardName: string;
+  name: string;
   color: TColorCode;
-  cardNumberPrefix: TCardNumbers;
+  numberPrefix: TCardNumbers;
 }
 
 export interface ICardDetailMessage {

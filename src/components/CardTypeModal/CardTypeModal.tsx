@@ -23,10 +23,10 @@ function CardTypeModal({ onClick }: TCardTypeModalProps) {
     <Modal onDimmedClick={handleNonSelected}>
       <ul className="palette">
         {CARD_TYPES.map((cardType) => {
-          const { id, color, cardName } = cardType;
+          const { id, color, name } = cardType;
           return (
             <li key={id} onClick={() => handleSelectedPalette(cardType)}>
-              <Palette color={color} label={cardName} />
+              <Palette color={color} label={name} />
             </li>
           );
         })}
