@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { TVirtualNumPad } from './types';
-import { CARD_VIRTUAL_KEYBOARD } from '../../constants';
+import { CARD_VIRTUAL_KEYBOARD } from '../../domain/payments/constants';
 import { TVirtualNumberPad, processPressKey } from './VirtualNumPadGenerator';
 
 const { CLICK_TRACING_DELAY, ACTIVE_BUTTON_CLASSNAME } = CARD_VIRTUAL_KEYBOARD;

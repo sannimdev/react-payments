@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { TCardEditProperties, TCardEditRefs, TCardEditSetters } from '../types';
-import { PAYMENTS_STEP } from '../../../constants';
+import { PAYMENTS_STEP } from '../../../domain/payments/constants';
 import { ICardType } from '../../../domain/payments/types';
 import { useStepContext } from '../../../context/StepContext';
 import { useCardContext } from '../../../context/CardContext';

@@ -2,11 +2,11 @@ import React, { useCallback, useState } from 'react';
 import { Card } from '../../components';
 import { Frame } from '../../components/Frame';
 import { useStepContext } from '../../context/StepContext';
-import { getSavedCards, removeCard } from '../../domain/payments/cardStorage';
+import { getSavedCards, removeCard } from '../../services/cardStorage';
 import { ICard } from '../../domain/payments/types';
 import './CardList.css';
 import { useCardContext } from '../../context/CardContext';
-import { PAYMENTS_STEP } from '../../constants';
+import { PAYMENTS_STEP } from '../../domain/payments/constants';
 
 function CardList() {
   const [cards, setCards] = useState(getSavedCards());

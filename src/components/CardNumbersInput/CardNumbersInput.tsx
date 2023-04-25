@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import { InputContainer } from '../InputContainer';
 import { NumberInput } from '../NumberInput';
-import { CARD_INPUT } from '../../constants';
+import { CARD_INPUT } from '../../domain/payments/constants';
 import useForwardedRef from '../../hooks/useForwardedRef';
 import useCardNumbersHandler from './hooks/useCardNumbersHandler';
 

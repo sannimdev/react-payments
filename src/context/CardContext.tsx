@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode, useContext, useState } from 'react';
 import { ICard } from '../domain/payments/types';
-import { CARD_DEFAULT_VALUE } from '../constants';
+import { CARD_DEFAULT_VALUE } from '../domain/payments/constants';
 
 const CardValueContext = createContext<ICard | null>(null);
 const CardValueUpdatingContext = createContext<((card: ICard) => void) | null>(null);

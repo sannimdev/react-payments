@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { CARD_INPUT } from '../../../constants';
+import { CARD_INPUT } from '../../../domain/payments/constants';
 
 type THookHandler = {
   cardNumbers: string[];

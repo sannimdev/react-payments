@@ -1,4 +1,4 @@
-import { ICard, ICardDetailMessage, ICardType } from './domain/payments/types';
+import { ICard, ICardDetailMessage, ICardType } from './types';
 
 export const CARD_INPUT = {
   CARD_NAME: {
@@ -52,7 +52,7 @@ export const CARD_DEFAULT_VALUE: ICard = {
   cvc: '000',
   owner: '홍길동',
   pin: '0000',
-} as const;
+};
 
 export const DEFAULT_CARD_TYPE: ICardType = {
   id: 0,

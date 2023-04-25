@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import '../../styles/card-types.css';
 import Palette from './Palette';
-import { CARD_TYPES } from '../../constants';
+import { CARD_TYPES } from '../../domain/payments/constants';
 import { ICardType } from '../../domain/payments/types';
 
 import { Modal } from '../Modal';

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { getDisplayCardNumbers } from '../../../util/card';
-import { CARD_TYPES, DEFAULT_CARD_TYPE } from '../../../constants';
+import { getDisplayCardNumbers } from '../../../domain/payments/card';
+import { CARD_TYPES, DEFAULT_CARD_TYPE } from '../../../domain/payments/constants';
 
 type THookCard = {
   cardNumbers: string[];

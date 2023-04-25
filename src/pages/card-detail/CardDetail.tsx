@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { Card } from '../../components/Card';
 import { Frame } from '../../components/Frame';
 import useBasicInput from '../../hooks/useBasicInput';
-import { CARD_DETAIL_MESSAGE } from '../../constants';
+import { CARD_DETAIL_MESSAGE } from '../../domain/payments/constants';
 import useCard from './hooks/useCard';
 import useCardDetailHandlers from './hooks/useCardDetailHandlers';
 

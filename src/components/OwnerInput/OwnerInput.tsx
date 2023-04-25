@@ -1,7 +1,7 @@
 import React, { ForwardedRef, forwardRef, useCallback, useState } from 'react';
 import { TCardComponentProps } from '../../domain/payments/types';
 import { InputContainer } from '../InputContainer';
-import { CARD_INPUT } from '../../constants';
+import { CARD_INPUT } from '../../domain/payments/constants';
 
 const MAX_LENGTH = CARD_INPUT.OWNER.MAX_LENGTH;
 

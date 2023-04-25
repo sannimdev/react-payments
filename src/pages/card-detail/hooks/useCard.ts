@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useCardContext } from '../../../context/CardContext';
-import { saveCard } from '../../../domain/payments/cardStorage';
+import { saveCard } from '../../../services/cardStorage';
 import { THookCard } from '../types';
 
 const useCard = ({ setAlias, aliasRef }: THookCard) => {

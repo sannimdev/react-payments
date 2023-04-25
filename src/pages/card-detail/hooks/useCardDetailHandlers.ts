@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
-import { saveCard } from '../../../domain/payments/cardStorage';
+import { saveCard } from '../../../services/cardStorage';
 import { useStepContext } from '../../../context/StepContext';
-import { PAYMENTS_STEP } from '../../../constants';
+import { PAYMENTS_STEP } from '../../../domain/payments/constants';
 import { THookCardDetailHandlers } from '../types';
 
 const useCardDetailHandlers = ({ card }: THookCardDetailHandlers) => {

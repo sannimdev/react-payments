@@ -1,7 +1,7 @@
 import React, { ForwardedRef, forwardRef } from 'react';
 import { TCardComponentProps } from '../../domain/payments/types';
 import { InputContainer } from '../InputContainer';
-import { CARD_INPUT } from '../../constants';
+import { CARD_INPUT } from '../../domain/payments/constants';
 import { ToolTip } from '../ToolTip';
 import { NumberInput } from '../NumberInput';
 import useForwardedRef from '../../hooks/useForwardedRef';
