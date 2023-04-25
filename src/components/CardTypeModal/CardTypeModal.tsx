@@ -20,7 +20,7 @@ function CardTypeModal({ onClick }: TCardTypeModalProps) {
   }, []);
 
   return (
-    <Modal onDimmedClick={handleNonSelected}>
+    <Modal onClick={handleNonSelected}>
       <ul className="palette">
         {CARD_TYPES.map((cardType) => {
           const { id, color, name } = cardType;

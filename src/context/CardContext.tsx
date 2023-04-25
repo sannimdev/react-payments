@@ -8,11 +8,9 @@ const CardValueUpdatingContext = createContext<((card: ICard) => void) | null>(n
 export function CardContextProvider({ children }: { children: ReactNode }) {
   const [card, setCard] = useState<ICard>(CARD_DEFAULT_VALUE);
 
-  const updateCard = (card: ICard) => setCard(card);
-
   return (
     <CardValueContext.Provider value={card}>
-      <CardValueUpdatingContext.Provider value={updateCard}>{children}</CardValueUpdatingContext.Provider>
+      <CardValueUpdatingContext.Provider value={setCard}>{children}</CardValueUpdatingContext.Provider>
     </CardValueContext.Provider>
   );
 }

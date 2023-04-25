@@ -14,11 +14,11 @@ function CardList() {
   const { setStep } = useStepContext();
   const { setCard } = useCardContext();
 
-  const handleAddingCard = useCallback(() => {
+  const addCard = useCallback(() => {
     setStep?.(PAYMENTS_STEP.ADD);
   }, [setStep]);
 
-  const handleUpdatingCard = useCallback(
+  const updateCard = useCallback(
     (card: ICard) => {
       setCard?.(card);
       setStep?.(PAYMENTS_STEP.UPDATING_CARD_ALIAS);
@@ -35,7 +35,7 @@ function CardList() {
     <Frame title="카드 목록">
       <ul className="card-list">
         <li>
-          <div className="empty-card" onClick={handleAddingCard}>
+          <div className="empty-card" onClick={addCard}>
             +
           </div>
         </li>
@@ -43,7 +43,7 @@ function CardList() {
           const { id, name, owner, numbers, expiredMonth, expiredYear, alias, cvc } = card;
           return (
             <li key={id}>
-              <Card card={{ name, owner, numbers, expiredMonth, expiredYear, alias, cvc }} onClick={handleUpdatingCard}>
+              <Card card={{ name, owner, numbers, expiredMonth, expiredYear, alias, cvc }} onClick={updateCard}>
                 <div className="card-controller">
                   <a href="#">
                     <strong>{alias || name}</strong>

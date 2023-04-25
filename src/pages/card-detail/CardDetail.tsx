@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react';
-import { Card } from '../../components/Card';
-import { Frame } from '../../components/Frame';
-import useBasicInput from '../../hooks/useBasicInput';
+import { Card, Frame } from '../../components';
+import { useBasicInput } from '../../hooks';
+import { useCardContext } from '../../context/CardContext';
 import { CARD_DETAIL_MESSAGE } from '../../domain/payments/constants';
-import useCard from './hooks/useCard';
 import useCardDetailHandlers from './hooks/useCardDetailHandlers';
 
 const CARD_ALIAS_MAX_LENGTH = 10;
@@ -13,12 +12,12 @@ type TCardDetailProps = {
 };
 
 function CardDetail({ step }: TCardDetailProps) {
-  const { text: alias, setText: setAlias, textRef: aliasRef, handleChange: handleAliasChange } = useBasicInput();
-  const { card } = useCard({ alias, setAlias, aliasRef, handleAliasChange });
+  const { card } = useCardContext();
   if (!card) return null;
-
   const { owner, expiredMonth, expiredYear, numbers, cvc } = card;
-  const { handleConfirm } = useCardDetailHandlers({ card, newAlias: alias });
+
+  const { text: alias, setText: setAlias, textRef: aliasRef, handleChange: handleAliasChange } = useBasicInput();
+  const { handleConfirm } = useCardDetailHandlers({ card, newAlias: alias, setAlias, aliasRef });
 
   const message = useMemo(() => CARD_DETAIL_MESSAGE.find((detail) => detail.step === step)?.message || '', [step]);
 

@@ -6,11 +6,6 @@ type THookBaseInputHandler = {
 };
 
 const useBasicInput = ({ onChange, onFulfill, nextRef, maxLength }: THookBaseInputHandler) => {
-  const handleChange = (newValue: string) => {
-    onChange?.(newValue);
-    handleFullfilled(newValue);
-  };
-
   const handleFullfilled = (value: string) => {
     if (maxLength && value.length === maxLength) {
       onFulfill?.(value);
@@ -18,7 +13,12 @@ const useBasicInput = ({ onChange, onFulfill, nextRef, maxLength }: THookBaseInp
     }
   };
 
-  return { handleChange, handleFullfilled };
+  const handleChange = (newValue: string) => {
+    onChange?.(newValue);
+    handleFullfilled(newValue);
+  };
+
+  return { handleFullfilled, handleChange };
 };
 
 export default useBasicInput;

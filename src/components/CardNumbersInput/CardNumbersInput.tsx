@@ -12,7 +12,7 @@ export type TInputEventHandler = {
 
 type TCardNumbersInput = {
   values: string[];
-  nextRef?: React.RefObject<HTMLInputElement>;
+  nextRef?: React.RefObject<HTMLInputElement | HTMLButtonElement>;
   caption?: string;
 } & TInputEventHandler;
 
