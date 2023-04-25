@@ -1,51 +1,52 @@
 import { ICard } from '../domain/payments/types';
+import { generateId } from '../util/identifier';
 
 const CARD_STORAGE_KEY = 'enrolled-card-list';
-
-const compareCards = (card1: ICard, card2: ICard) => card1.numbers.join('') === card2.numbers.join('');
-const getCard = (card: ICard, cards: ICard[]) => cards.find((c) => compareCards(c, card));
+const getCard = (cards: ICard[], card: ICard) => cards.find(({ id }) => id === card.id);
 
 export const getSavedCards = () => {
-  const saved = localStorage.getItem(CARD_STORAGE_KEY) || '';
-  const enrolled = JSON.parse(saved);
-
-  if (Array.isArray(enrolled)) {
-    return enrolled;
+  try {
+    const saved = localStorage.getItem(CARD_STORAGE_KEY) || '[]';
+    return JSON.parse(saved) as ICard[];
+  } catch (error) {
+    return [] as ICard[];
   }
-
-  throw new Error('Invalid types');
 };
 
-export const saveCard = (card: ICard) => {
+export const saveCard = (newCard: ICard): ICard => {
   const createdAt = { createdAt: Date.now() };
   const updatedAt = { updatedAt: Date.now() };
 
-  const cards = getSavedCards();
-  const others = cards.filter((c) => !compareCards(c, card)); //
-  const savedCard = getCard(card, cards);
+  const savedCards = getSavedCards();
+  const oldCard = getCard(savedCards, newCard);
+  const others = savedCards.filter(({ id }) => id !== newCard.id);
 
-  const newCardsList = [
+  const newId = generateId();
+  const newCards = [
     {
-      ...savedCard,
-      ...card,
-      ...(savedCard ? updatedAt : createdAt),
+      ...(oldCard || { id: newId }),
+      ...newCard,
+      ...(oldCard ? updatedAt : createdAt),
     },
     ...others,
   ];
-  newCardsList.sort(({ createdAt: a }, { createdAt: b }) => b - a);
+  newCards.sort(({ createdAt: a }, { createdAt: b }) => (b || 0) - (a || 0));
 
-  localStorage.setItem(CARD_STORAGE_KEY, JSON.stringify(newCardsList)); //
+  localStorage.setItem(CARD_STORAGE_KEY, JSON.stringify(newCards));
+
+  return { ...newCard, id: newId };
 };
 
 export const deleteCard = (card: ICard) => {
-  const cards = getSavedCards();
-  const savedCard = getCard(card, cards);
+  const savedCards = getSavedCards();
+  const savedCard = getCard(savedCards, card);
+
   if (!savedCard) {
     throw new Error('해당 카드가 저장되어 있지 않습니다');
   }
 
-  const others = cards.filter((c) => !compareCards(c, card)); //
-  localStorage.setItem(CARD_STORAGE_KEY, JSON.stringify(others)); //
+  const others = savedCards.filter(({ id }) => id !== card.id);
+  localStorage.setItem(CARD_STORAGE_KEY, JSON.stringify(others));
 
   return true;
 };

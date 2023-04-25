@@ -4,16 +4,17 @@ import { useStepContext } from '../../../context/StepContext';
 import { PAYMENTS_STEP } from '../../../domain/payments/constants';
 import { THookCardDetailHandlers } from '../types';
 
-const useCardDetailHandlers = ({ card }: THookCardDetailHandlers) => {
+const useCardDetailHandlers = ({ card, newAlias }: THookCardDetailHandlers) => {
   const { setStep } = useStepContext();
-  const { alias, name } = card;
+  const { name } = card;
 
   const handleConfirm = useCallback(
     (event: React.FormEvent) => {
       try {
+        // 아래의 코드는 서버에 전송한다고 가정... id값은 서버단 코드에서 만들어진다고 가정...
         saveCard({
           ...card,
-          alias: alias || name,
+          alias: newAlias || name,
         });
 
         setStep?.(PAYMENTS_STEP.LIST);
@@ -24,7 +25,7 @@ const useCardDetailHandlers = ({ card }: THookCardDetailHandlers) => {
         event.preventDefault();
       }
     },
-    [alias, card, setStep]
+    [newAlias]
   );
 
   return { handleConfirm };

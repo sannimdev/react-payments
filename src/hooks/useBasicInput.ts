@@ -6,9 +6,9 @@ const useBasicInput = () => {
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      setText(event.target.value);
+      setText(() => event.target.value);
     },
-    [text, setText]
+    [text]
   );
 
   return { text, setText, handleChange, textRef };

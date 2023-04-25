@@ -29,7 +29,7 @@ const useVirtualNumPad = ({ onClick, keys }: THookVirtualNumPad) => {
 
       [index, randomIndexes[0]].forEach((idx) => {
         const node = parent?.childNodes[idx] as HTMLElement;
-        node.classList.add(ACTIVE_BUTTON_CLASSNAME);
+        node?.classList?.add(ACTIVE_BUTTON_CLASSNAME);
 
         setTimeout(() => {
           node.classList.remove(ACTIVE_BUTTON_CLASSNAME);

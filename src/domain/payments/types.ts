@@ -18,6 +18,7 @@ export type TCardComponentProps<T = string[]> = {
 };
 
 export interface ICard {
+  id?: string;
   // 카드 식별을 위한  정보
   name?: string;
   owner?: string;

@@ -1,14 +1,12 @@
 import { useEffect } from 'react';
 import { useCardContext } from '../../../context/CardContext';
-import { saveCard } from '../../../services/cardStorage';
 import { THookCard } from '../types';
 
 const useCard = ({ setAlias, aliasRef }: THookCard) => {
   const { card } = useCardContext();
 
   useEffect(() => {
-    card && saveCard(card);
-
+    // TODO: 나중에 리팩터링
     if (card?.alias) {
       setAlias(card.alias);
       setTimeout(() => {

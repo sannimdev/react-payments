@@ -40,9 +40,9 @@ function CardList() {
           </div>
         </li>
         {cards.map((card) => {
-          const { name, owner, numbers, expiredMonth, expiredYear, alias, cvc } = card;
+          const { id, name, owner, numbers, expiredMonth, expiredYear, alias, cvc } = card;
           return (
-            <li key={numbers.join('')}>
+            <li key={id}>
               <Card card={{ name, owner, numbers, expiredMonth, expiredYear, alias, cvc }} onClick={handleUpdatingCard}>
                 <div className="card-controller">
                   <a href="#">

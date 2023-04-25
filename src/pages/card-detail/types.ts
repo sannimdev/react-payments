@@ -11,4 +11,5 @@ export type THookCard = TCardAlias;
 
 export type THookCardDetailHandlers = {
   card: ICard;
+  newAlias?: string;
 };

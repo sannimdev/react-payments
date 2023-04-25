@@ -18,7 +18,7 @@ function CardDetail({ step }: TCardDetailProps) {
   if (!card) return null;
 
   const { owner, expiredMonth, expiredYear, numbers, cvc } = card;
-  const { handleConfirm } = useCardDetailHandlers({ card });
+  const { handleConfirm } = useCardDetailHandlers({ card, newAlias: alias });
 
   const message = useMemo(() => CARD_DETAIL_MESSAGE.find((detail) => detail.step === step)?.message || '', [step]);
 

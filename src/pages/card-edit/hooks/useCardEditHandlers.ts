@@ -4,6 +4,7 @@ import { PAYMENTS_STEP } from '../../../domain/payments/constants';
 import { ICardType } from '../../../domain/payments/types';
 import { useStepContext } from '../../../context/StepContext';
 import { useCardContext } from '../../../context/CardContext';
+import { saveCard } from '../../../services/cardStorage';
 
 export type THookHandler = TCardEditProperties &
   TCardEditSetters &
@@ -72,7 +73,7 @@ const useCardEditHandlers = ({
         return;
       }
 
-      setCard?.({
+      const savedCard = saveCard({
         name: card?.name,
         owner,
         numbers: cardNumbers,
@@ -81,6 +82,8 @@ const useCardEditHandlers = ({
         pin,
         cvc,
       });
+
+      setCard?.(savedCard);
       setStep?.(PAYMENTS_STEP.DONE);
     },
     [setStep, ...inputs, refs]
