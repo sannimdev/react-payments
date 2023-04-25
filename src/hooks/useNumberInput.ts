@@ -1,7 +1,7 @@
 import React, { Dispatch, MutableRefObject, SetStateAction, useCallback, useEffect, useRef, useState } from 'react';
-import { TCardComponentProps } from '../domain/payments/types';
 import { setFocus } from '../util/input';
 import { leaveOnlyNumbers } from '../util/number';
+import { TCardComponentProps } from '../pages/card-edit/types';
 
 type THookNumerInputProps = {
   initValues: string[];
