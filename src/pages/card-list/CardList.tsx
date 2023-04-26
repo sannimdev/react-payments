@@ -1,30 +1,14 @@
 import React, { useCallback, useState } from 'react';
 import { Card } from '../../components';
 import { Frame } from '../../components/Frame';
-import { useStepContext } from '../../context/StepContext';
 import { getSavedCards, deleteCard } from '../../services/cardStorage';
 import { ICard } from '../../domain/payments/types';
 import './CardList.css';
-import { useCardContext } from '../../context/CardContext';
-import { PAYMENTS_STEP } from '../../domain/payments/constants';
+import useCardList from './hooks/useCardList';
 
 function CardList() {
   const [cards, setCards] = useState(getSavedCards());
-
-  const { setStep } = useStepContext();
-  const { setCard } = useCardContext();
-
-  const addCard = useCallback(() => {
-    setStep?.(PAYMENTS_STEP.ADD);
-  }, [setStep]);
-
-  const updateCard = useCallback(
-    (card: ICard) => {
-      setCard?.(card);
-      setStep?.(PAYMENTS_STEP.UPDATING_CARD_ALIAS);
-    },
-    [setStep]
-  );
+  const { addCard, updateCard } = useCardList();
 
   const handleDeletingCard = useCallback((card: ICard) => {
     deleteCard(card);
